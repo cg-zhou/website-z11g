@@ -2,6 +2,40 @@ html {
     background-color: black;
 }
 
+@font-face {
+    font-family: old-standard-tt;
+    src: url('../fonts/old-standard-tt.woff2');
+}    
+
+.header {
+    height: 250px;
+    text-align: center;
+}
+
+.header-img {
+    margin-top: 60px;
+    width: 360px;
+    border-radius: 50%;
+}
+
+.banner {
+    background-color: white;
+    padding-top: 200px;
+    padding-bottom: 120px;
+}
+
+.banner-text {
+    font-weight: lighter;
+    margin: auto;
+    text-align: center;
+    font-size: 56px;
+    line-height: 67px;
+    color: #959595;
+    letter-spacing: -0.4px;
+    font-family: 'old-standard-tt', serif;
+    max-width: 980px;
+}
+
 .footer {
     text-align: center;
     margin: 30px;
