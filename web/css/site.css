@@ -7,6 +7,11 @@ html {
     src: url('../fonts/old-standard-tt.woff2');
 }    
 
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
 .header {
     height: 250px;
     text-align: center;
