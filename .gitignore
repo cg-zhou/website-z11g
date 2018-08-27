@@ -1,7 +1,7 @@
 
+*.user
+*.suo
 web/.vs/*
 web/packages/*
 web/site-z11g/bin/*
-web/*/obj/*
-
-*.user
+web/site-z11g/obj/*
