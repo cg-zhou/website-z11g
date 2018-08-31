@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chunguang Zhou</title>
+    <link rel="stylesheet" type="text/css" href="/content/3rdPartyLibs/kityminder/kityminder.css">
+    <link rel="icon" href="/content/images/favicon.ico" type="image/x-icon">
+
+    <style type="text/css">
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #minder-view {
+            position: absolute;
+            border: 1px solid #ccc;
+            left: 10px;
+            top: 10px;
+            bottom: 10px;
+            right: 10px;
+        }
+    </style>
+
+    <script type="text/javascript" src="/content/3rdPartyLibs/kityminder/kity.min.js"></script>
+    <script type="text/javascript" src="/content/3rdPartyLibs/kityminder/kityminder.core.min.js"></script>
+
+</head>
+
+<body>
+    <script id="minder-view" type="application/kityminder" minder-data-type="json">
+        {
+        "root": {
+        "data": {
+        "text": "百度产品"
+        },
+        "children": [
+        { "data": { "text": "新闻" } },
+        { "data": { "text": "网页", "priority": 1 } },
+        { "data": { "text": "贴吧", "priority": 2 } },
+        { "data": { "text": "知道", "priority": 2 } },
+        { "data": { "text": "音乐", "priority": 3 } },
+        { "data": { "text": "图片", "priority": 3 } },
+        { "data": { "text": "视频", "priority": 3 } },
+        { "data": { "text": "地图", "priority": 3 } },
+        { "data": { "text": "百科", "priority": 3 } },
+        { "data": { "text": "更多", "hyperlink": "http://www.baidu.com/more" } }
+        ]
+        }
+        }
+    </script>
+    <script type="text/javascript">
+        var km = window.km = new kityminder.Minder();
+        km.setup('#minder-view');
+        km.disable();
+        km.execCommand('hand');
+    </script>
+</body>
+
+</html>
