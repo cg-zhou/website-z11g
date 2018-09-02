@@ -38,6 +38,9 @@
             width: 40px;
         }
 
+    .red {
+        color: red;
+    }
 </style>
 
 <script src="../../Content/3rdPartyLibs/vue/vue.js"></script>
@@ -62,6 +65,12 @@
                 <img src="/content/images/email.png" alt="email">
             </a>
         </div>
+
+        <div class="mini-icon-link">
+            <a class="footer-link" href="/CalcTax">
+                <img src="/content/images/Money.png" alt="CalcTax">
+            </a>
+        </div>
     </div>
 </header>
 
@@ -83,12 +92,12 @@
                 <div>{{"10月1日后需缴税 " + taxAfter2018 + " 元"}}</div>
                 <div>
                     <span>{{"每月减少缴税 "}}</span>
-                    <span @@style="difference > 0 ? 'color:red;' : ''">{{difference}}</span>
+                    <span :class="(difference > 0) ? 'red' : ''">{{difference}}</span>
                     <span>{{" 元"}}</span>
                 </div>
                 <div>
                     <span>{{"每年减少缴税 "}}</span>
-                    <span @@style="difference > 0 ? 'color:red;' : ''">{{differenceTotalYear}}</span>
+                    <span :class="difference > 0 ? 'red' : ''">{{differenceTotalYear}}</span>
                     <span>{{" 元"}}</span>
                 </div>
             </el-form-item>
