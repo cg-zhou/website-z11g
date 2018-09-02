@@ -86,11 +86,15 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\3rdPartyLibs\axios\axios.min.js" />
+    <Content Include="Content\3rdPartyLibs\element-ui\index.css" />
+    <Content Include="Content\3rdPartyLibs\element-ui\index.js" />
     <Content Include="Content\3rdPartyLibs\kityminder\kity.min.js" />
     <Content Include="Content\3rdPartyLibs\kityminder\kityminder.core.css" />
     <Content Include="Content\3rdPartyLibs\kityminder\kityminder.core.js" />
     <Content Include="Content\3rdPartyLibs\kityminder\kityminder.core.min.js" />
     <Content Include="Content\3rdPartyLibs\kityminder\kityminder.css" />
+    <Content Include="Content\3rdPartyLibs\vue\vue.js" />
     <Content Include="Content\css\site.css" />
     <Content Include="Content\Images\duck.jpg" />
     <Content Include="Content\Images\Email.png" />
@@ -110,6 +114,7 @@
     </Content>
     <None Include="Properties\PublishProfiles\AliyunProfile.pubxml" />
     <Content Include="Views\Home\Minder.cshtml" />
+    <Content Include="Views\CalcTax\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -120,6 +125,7 @@
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CalcTaxController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
