@@ -42,7 +42,6 @@
             .mini-icon-link img {
                 width: 40px;
             }
-
     </style>
 </head>
 
@@ -91,7 +90,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @@click="calc">计算</el-button>
-                    <el-button>清空</el-button>
+                    <el-button @@click="clear">清空</el-button>
                 </el-form-item>
                 <el-form-item label="计算结果">
                     <div>{{"10月1日前需缴税 " + taxBefore2018 + " 元"}}</div>
@@ -162,15 +161,19 @@
                             self.taxAfter2018 = response.data.resultAfter2018.SumTax;
                             self.difference = response.data.difference;
                             self.differenceYear = response.data.differenceYear;
-                            
+
                         })
                         .catch(function (error) {
                             console.log(error);
                         });
                 },
                 clear: function () {
-                    this.form.income = '';
-                    this.form.incomeWithoutTax = '';
+                    this.form.income = 0;
+                    this.form.incomeWithoutTax = 0;
+                    this.taxBefore2018 = 0;
+                    this.taxAfter2018 = 0;
+                    this.difference = 0;
+                    this.differenceYear = 0;
                 }
             }
         })
