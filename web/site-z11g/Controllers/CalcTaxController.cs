@@ -26,7 +26,7 @@ namespace SiteZ11G.Controllers
                 resultBefore2018,
                 resultAfter2018,
                 difference = resultBefore2018.SumTax - resultAfter2018.SumTax,
-                differenceYear = (resultBefore2018.SumTax - resultAfter2018.SumTax) * 12
+                differenceTotalYear = (resultBefore2018.SumTax - resultAfter2018.SumTax) * 12
             });
         }
     }
