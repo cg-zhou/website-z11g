@@ -73,6 +73,10 @@ body {
     float: left;
 }
 
+.right {
+    float: right;
+}
+
 .logo-size, .logo-size div {
     width: 360px;
     height: 360px;
