@@ -4,8 +4,7 @@ html {
 
 @font-face {
     font-family: old-standard-tt;
-    src: url('/content/fonts/old-standard-tt.eot?#iefix') format('embedded-opentype'),
-        url('/content/fonts/old-standard-tt.woff2') format('woff');
+    src: url('/content/fonts/old-standard-tt.eot?#iefix') format('embedded-opentype'), url('/content/fonts/old-standard-tt.woff2') format('woff');
 }
 
 body {
@@ -21,7 +20,7 @@ body {
 .banner {
     background-color: white;
     padding-top: 200px;
-    padding-bottom: 120px;
+    padding-bottom: 90px;
 }
 
 .banner-icon {
@@ -41,12 +40,12 @@ body {
     font-weight: lighter;
     margin: auto;
     text-align: center;
-    font-size: 56px;
+    font-size: 45px;
     line-height: 67px;
     color: #959595;
     letter-spacing: -0.4px;
     font-family: 'old-standard-tt', serif;
-    max-width: 980px;
+    max-width: 800px;
 }
 
 .footer {
@@ -54,12 +53,16 @@ body {
     margin: 30px;
 }
 
+    .footer img {
+        cursor: pointer;
+    }
+
 .footer-row {
     color: rgb(206, 206, 206);
     margin-bottom: 10px;
 }
 
-.footer-link {  
+.footer-link {
     color: rgb(206, 206, 206);
     text-decoration: underline;
 }
@@ -149,8 +152,6 @@ body {
         color: #fff;
         font-style: italic;
         font-size: 20px;
-        border-top: 1px solid rgb(255, 255, 255);
-        border-top: 1px solid rgba(255, 255, 255, .5);
         opacity: 0;
         -webkit-transition: all 1s ease-in-out .4s;
         -moz-transition: all 1s ease-in-out .4s;

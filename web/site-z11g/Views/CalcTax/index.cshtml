@@ -11,6 +11,7 @@
 
     .tax-row {
         margin-top: 10px;
+        text-align: center;
     }
 
     .tax-input {
@@ -52,8 +53,7 @@
             </el-input>
         </el-row>
         <el-row class="tax-row">
-            <el-button style="margin-left: 110px;"
-                       type="primary" @@click="calc">计算</el-button>
+            <el-button type="primary" @@click="calc">计算</el-button>
             <el-button @@click="clear">清空</el-button>
         </el-row>
 
@@ -75,11 +75,11 @@
                 </div>
                 <div>
                     <span>每月减少缴税：</span>
-                    <span>{{differencePerMonth}}</span>
+                    <span style="color:coral;">{{differencePerMonth}}</span>
                 </div>
                 <div>
                     <span>每年减少缴税：</span>
-                    <span>{{differencePerYear}}</span>
+                    <span style="color:coral;">{{differencePerYear}}</span>
                 </div>
             </div>
         </el-card>
