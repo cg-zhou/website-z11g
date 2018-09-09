@@ -66,20 +66,28 @@
 
             <div class="tax-result">
                 <div>
-                    <span>10月1日前需缴税：</span>
+                    <span>以前每月缴税：</span>
                     <span>{{taxBefore2018}}</span>
                 </div>
                 <div>
-                    <span>10月1日后需缴税：</span>
+                    <span>现在每月缴税：</span>
                     <span>{{taxAfter2018}}</span>
                 </div>
                 <div>
                     <span>每月减少缴税：</span>
-                    <span style="color:coral;">{{differencePerMonth}}</span>
+                    <span style="color:orangered;">{{differencePerMonth}}</span>
                 </div>
                 <div>
                     <span>每年减少缴税：</span>
-                    <span style="color:coral;">{{differencePerYear}}</span>
+                    <span style="color:orangered;">{{differencePerYear}}</span>
+                </div>
+                <div>
+                    <span>以前每月到手：</span>
+                    <span>{{netIncomePerMonthBefore2018}}</span>
+                </div>
+                <div>
+                    <span>现在每月到手：</span>
+                    <span>{{netIncomePerMonthAfter2018}}</span>
                 </div>
             </div>
         </el-card>
@@ -90,8 +98,6 @@
     var app = new Vue({
         el: '#app',
         data: {
-            message: 'Hello Vue!',
-            visible: false,
             form: {
                 income: '',
                 incomeWithoutTax: '',
@@ -101,6 +107,8 @@
             taxAfter2018: 0,
             differencePerMonth: 0,
             differencePerYear: 0,
+            netIncomePerMonthBefore2018: 0,
+            netIncomePerMonthAfter2018: 0,
         },
         methods: {
             calc: function () {
@@ -112,7 +120,8 @@
                         self.taxAfter2018 = response.data.taxAfter2018;
                         self.differencePerMonth = response.data.differencePerMonth;
                         self.differencePerYear = response.data.differencePerYear;
-
+                        self.netIncomePerMonthBefore2018 = response.data.netIncomePerMonthBefore2018;
+                        self.netIncomePerMonthAfter2018 = response.data.netIncomePerMonthAfter2018;
                     })
                     .catch(function (error) {
                         console.log(error);

@@ -12,5 +12,7 @@ namespace SiteZ11G.Service.IndividualIncomeTax
         public decimal Income { get; set; }
 
         public decimal InsuranceAndHousingProvidentFund { get; set; }
+
+        public decimal NetIncomePerMonth { get { return Income - InsuranceAndHousingProvidentFund - SumTax; } }
     }
 }
