@@ -9,6 +9,7 @@ namespace SiteZ11G.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            ViewBag.Title = "小黄鸭帮你算个税";
             return View();
         }
 

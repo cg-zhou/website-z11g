@@ -7,6 +7,7 @@ namespace SiteZ11G.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            ViewBag.Title = "Cg-Zhou";
             return View();
         }
 
