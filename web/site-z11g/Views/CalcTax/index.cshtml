@@ -74,20 +74,20 @@
                     <span>{{taxAfter2018}}</span>
                 </div>
                 <div>
+                    <span>以前每月税后：</span>
+                    <span>{{netIncomePerMonthBefore2018}}</span>
+                </div>
+                <div>
+                    <span>现在每月税后：</span>
+                    <span>{{netIncomePerMonthAfter2018}}</span>
+                </div>
+                <div>
                     <span>每月减少缴税：</span>
                     <span style="color:orangered;">{{differencePerMonth}}</span>
                 </div>
                 <div>
                     <span>每年减少缴税：</span>
                     <span style="color:orangered;">{{differencePerYear}}</span>
-                </div>
-                <div>
-                    <span>以前每月到手：</span>
-                    <span>{{netIncomePerMonthBefore2018}}</span>
-                </div>
-                <div>
-                    <span>现在每月到手：</span>
-                    <span>{{netIncomePerMonthAfter2018}}</span>
                 </div>
             </div>
         </el-card>
@@ -134,6 +134,8 @@
                 this.taxAfter2018 = 0;
                 this.differencePerMonth = 0;
                 this.differencePerYear = 0;
+                this.netIncomePerMonthBefore2018 = 0;
+                this.netIncomePerMonthAfter2018 = 0;
             }
         }
     })
