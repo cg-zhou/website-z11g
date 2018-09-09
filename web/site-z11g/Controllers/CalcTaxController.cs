@@ -24,10 +24,10 @@ namespace SiteZ11G.Controllers
             var resultAfter2018 = calculatorAfter2018.Calculate(income, incomeWithoutTax);
             return Json(new
             {
-                resultBefore2018,
-                resultAfter2018,
-                difference = resultBefore2018.SumTax - resultAfter2018.SumTax,
-                differenceTotalYear = (resultBefore2018.SumTax - resultAfter2018.SumTax) * 12
+                taxBefore2018 = resultBefore2018.SumTax.ToString("0.00"),
+                taxAfter2018 = resultAfter2018.SumTax.ToString("0.00"),
+                differencePerMonth = (resultBefore2018.SumTax - resultAfter2018.SumTax).ToString("0.00"),
+                differencePerYear = ((resultBefore2018.SumTax - resultAfter2018.SumTax) * 12).ToString("0.00")
             });
         }
     }

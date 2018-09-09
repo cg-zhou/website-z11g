@@ -22,26 +22,38 @@
         border-radius: 50%;
         margin-left: auto;
         margin-right: auto;
-        /*max-width: 1000px;*/
         width: 360px;
         height: 100px;
         padding-left: 20px;
         padding-right: 20px;
     }
 
-    /*.mini-icon-link {
-        margin-top: 50px;
-        float: right;
-        margin-right: 20px;
-    }
-
-        .mini-icon-link img {
-            width: 40px;
-        }*/
-
     .red {
         color: red;
     }
+
+    .tax-row {
+        margin-top: 10px;
+    }
+
+    .tax-input {
+        width: 360px;
+    }
+
+    .tax-result {
+        font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+        .tax-result div {
+            height: 40px;
+        }
+
+            .tax-result div span:nth-child(2n) {
+                font-size: 20px;
+                font-weight: bold;
+                float: right;
+            }
 </style>
 
 <script src="../../Content/3rdPartyLibs/vue/vue.js"></script>
@@ -58,33 +70,51 @@
 </header>
 
 <div id="app" v-cloak style="background-color:white;padding-top:200px;padding-bottom:50px;">
-    <div style="width: 800px;margin-left:auto;margin-right:auto;">
-        <el-form ref="form" :model="form" label-width="300px">
-            <el-form-item label="税前收入（月）">
-                <el-input v-model="form.income" style="width: 300px;"></el-input>
-            </el-form-item>
-            <el-form-item label="社保和公积金（月）">
-                <el-input v-model="form.incomeWithoutTax" style="width: 300px;"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @@click="calc">计算</el-button>
-                <el-button @@click="clear">清空</el-button>
-            </el-form-item>
-            <el-form-item label="计算结果">
-                <div>{{"10月1日前需缴税 " + taxBefore2018 + " 元"}}</div>
-                <div>{{"10月1日后需缴税 " + taxAfter2018 + " 元"}}</div>
+    <div style="width: 360px;margin-left:auto;margin-right:auto;">
+        <el-row>
+            <el-input v-model="form.income"
+                      placeholder="税前收入（月）"
+                      class="tax-input">
+            </el-input>
+        </el-row>
+        <el-row class="tax-row">
+            <el-input v-model="form.incomeWithoutTax"
+                      placeholder="社保和公积金（月）"
+                      class="tax-input">
+            </el-input>
+        </el-row>
+        <el-row class="tax-row">
+            <el-button style="margin-left: 110px;"
+                       type="primary" @@click="calc">计算</el-button>
+            <el-button @@click="clear">清空</el-button>
+        </el-row>
+
+        <el-card style="margin-top: 50px;">
+            <div slot="header">
+                <span class="tax-result" style="font-size:24px;">
+                    计算结果
+                </span>
+            </div>
+
+            <div class="tax-result">
                 <div>
-                    <span>{{"每月减少缴税 "}}</span>
-                    <span :class="(difference > 0) ? 'red' : ''">{{difference}}</span>
-                    <span>{{" 元"}}</span>
+                    <span>10月1日前需缴税：</span>
+                    <span>{{taxBefore2018}}</span>
                 </div>
                 <div>
-                    <span>{{"每年减少缴税 "}}</span>
-                    <span :class="difference > 0 ? 'red' : ''">{{differenceTotalYear}}</span>
-                    <span>{{" 元"}}</span>
+                    <span>10月1日后需缴税：</span>
+                    <span>{{taxAfter2018}}</span>
                 </div>
-            </el-form-item>
-        </el-form>
+                <div>
+                    <span>每月减少缴税：</span>
+                    <span>{{differencePerMonth}}</span>
+                </div>
+                <div>
+                    <span>每年减少缴税：</span>
+                    <span>{{differencePerYear}}</span>
+                </div>
+            </div>
+        </el-card>
     </div>
 </div>
 
@@ -95,13 +125,14 @@
             message: 'Hello Vue!',
             visible: false,
             form: {
-                income: 0,
-                incomeWithoutTax: 0,
+                income: '',
+                incomeWithoutTax: '',
             },
+
             taxBefore2018: 0,
             taxAfter2018: 0,
-            difference: 0,
-            differenceTotalYear: 0,
+            differencePerMonth: 0,
+            differencePerYear: 0,
         },
         methods: {
             calc: function () {
@@ -109,10 +140,10 @@
                 axios.post('/CalcTax/Run', this.form)
                     .then(function (response) {
                         console.log(response);
-                        self.taxBefore2018 = response.data.resultBefore2018.SumTax;
-                        self.taxAfter2018 = response.data.resultAfter2018.SumTax;
-                        self.difference = response.data.difference;
-                        self.differenceTotalYear = response.data.differenceTotalYear;
+                        self.taxBefore2018 = response.data.taxBefore2018;
+                        self.taxAfter2018 = response.data.taxAfter2018;
+                        self.differencePerMonth = response.data.differencePerMonth;
+                        self.differencePerYear = response.data.differencePerYear;
 
                     })
                     .catch(function (error) {
@@ -120,12 +151,12 @@
                     });
             },
             clear: function () {
-                this.form.income = 0;
-                this.form.incomeWithoutTax = 0;
+                this.form.income = '';
+                this.form.incomeWithoutTax = '';
                 this.taxBefore2018 = 0;
                 this.taxAfter2018 = 0;
-                this.difference = 0;
-                this.differenceTotalYear = 0;
+                this.differencePerMonth = 0;
+                this.differencePerYear = 0;
             }
         }
     })
