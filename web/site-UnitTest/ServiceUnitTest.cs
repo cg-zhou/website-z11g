@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using SiteZ11G.Service.IndividualIncomeTax;
-using System.IO;
-using System.Net;
+using SiteZ11G.Utils.Web;
 
 namespace site_UnitTest
 {
@@ -33,18 +31,7 @@ namespace site_UnitTest
             var appid = "";
             var secret = "";
             var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appid}&secret={secret}";
-            var request = WebRequest.Create(url);
-            request.Method = "GET";
-            request.Timeout = 10000;
-            request.ContentType = "application/json";
-
-            var response = request.GetResponse();
-            StreamReader streamReader = new StreamReader(response.GetResponseStream());
-            string responseContent = streamReader.ReadToEnd();
-            response.Close();
-            streamReader.Close();
-
-            var token = JsonConvert.DeserializeObject<WechatToken>(responseContent);
+            var token = Rest.Get<WechatToken>(url);
         }
     }
 }
