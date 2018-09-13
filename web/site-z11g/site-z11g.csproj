@@ -141,6 +141,7 @@
     <Compile Include="Service\IndividualIncomeTax\Calculator.cs" />
     <Compile Include="Service\IndividualIncomeTax\TaxLevelResult.cs" />
     <Compile Include="Service\IndividualIncomeTax\TaxLevel.cs" />
+    <Compile Include="Utils\Alogrithm.cs" />
     <Compile Include="Utils\Web\Rest.cs" />
   </ItemGroup>
   <ItemGroup>
