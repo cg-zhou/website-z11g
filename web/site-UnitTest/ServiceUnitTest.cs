@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SiteZ11G.Service.IndividualIncomeTax;
-using SiteZ11G.Utils;
-using SiteZ11G.Utils.Web;
-using System;
+using SiteZ11G.Utils.WechatUtils;
 
 namespace site_UnitTest
 {
@@ -21,53 +19,15 @@ namespace site_UnitTest
             Assert.AreEqual(resultAfter2018.SumTax, 37.2m);
         }
 
-        class WechatToken
-        {
-            public string access_token { get; set; }
-            public int expires_in { get; set; }
-        }
-
-        class WechatTicket
-        {
-            public int errcode { get; set; }
-            public string errmsg { get; set; }
-            public string ticket { get; set; }
-            public int expires_in { get; set; }
-        }
-
-        class WechatSignature
-        {
-            public string noncestr { get; set; }
-            public string jsapi_ticket { get; set; }
-            public int timestamp { get; set; }
-            public string url { get; set; }
-        }
-
         [TestMethod]
         public void TestWeixin()
         {
             var appid = "";
             var secret = "";
-            var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appid}&secret={secret}";
-            var token = Rest.Get<WechatToken>(url);
+            Wechat.Init(appid, secret);
 
-            url = $"https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={token.access_token}&type=jsapi";
-            var ticket = Rest.Get<WechatTicket>(url);
-
-            var destUrl = string.Empty;
-
-            var signature = new WechatSignature();
-            signature.noncestr = DateTime.Now.ToString("yyyyMMddHHmmss");
-            signature.jsapi_ticket = ticket.ticket;
-            signature.timestamp = (int)(DateTime.Now.Ticks / 1000);
-            signature.url = destUrl;
-
-            var sourceString = string.Join("&",
-                $"{nameof(signature.noncestr)}={signature.noncestr}",
-                $"{nameof(signature.jsapi_ticket)}={signature.jsapi_ticket}",
-                $"{nameof(signature.timestamp)}={signature.timestamp}",
-                $"{nameof(signature.url)}={signature.url}");
-            var signatureSha1 = Alogrithm.Sha1(sourceString);
+            var destUrl = "";
+            Wechat.GetSignature(destUrl);
         }
     }
 }

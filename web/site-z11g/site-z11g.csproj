@@ -143,6 +143,9 @@
     <Compile Include="Service\IndividualIncomeTax\TaxLevel.cs" />
     <Compile Include="Utils\Alogrithm.cs" />
     <Compile Include="Utils\Web\Rest.cs" />
+    <Compile Include="Utils\WechatUtils\Signature.cs" />
+    <Compile Include="Utils\WechatUtils\Wechat.cs" />
+    <Compile Include="Utils\WechatUtils\WechatStructure.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
