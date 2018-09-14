@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SiteZ11G.Utils.WechatUtils;
+using System;
 using System.Web;
 using System.Web.Routing;
-using System.Web.Security;
-using SiteZ11G;
 
 namespace SiteZ11G
 {
@@ -14,6 +11,8 @@ namespace SiteZ11G
         {
             AuthConfig.RegisterOpenAuth();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            Wechat.Init("", "");
         }
 
         void Application_End(object sender, EventArgs e)

@@ -57,11 +57,12 @@ namespace SiteZ11G.Utils.WechatUtils
         {
             while (true)
             {
+                var now = DateTime.Now;
                 if (!m_lastQueryTime.HasValue
-                    || (m_lastQueryTime.Value - DateTime.Now).Hours > 1)
+                    || (now - m_lastQueryTime.Value).Hours > 0)
                 {
                     FetchTicket();
-                    m_lastQueryTime = DateTime.Now;
+                    m_lastQueryTime = now;
                 }
 
                 Thread.Sleep(5000);

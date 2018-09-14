@@ -14,12 +14,14 @@ namespace SiteZ11G.Utils.Web
             request.ContentType = "application/json";
 
             var response = request.GetResponse();
-            StreamReader streamReader = new StreamReader(response.GetResponseStream());
-            string responseContent = streamReader.ReadToEnd();
+            var content = string.Empty;
+            using (var streamReader = new StreamReader(response.GetResponseStream()))
+            {
+                content = streamReader.ReadToEnd();
+            }
             response.Close();
-            streamReader.Close();
 
-            var result = JsonConvert.DeserializeObject<T>(responseContent);
+            var result = JsonConvert.DeserializeObject<T>(content);
             return result;
         }
     }
