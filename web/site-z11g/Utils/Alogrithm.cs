@@ -9,8 +9,14 @@ namespace SiteZ11G.Utils
         {
             var bytes = m_sha1Encoding.GetBytes(sourceString);
             var hashBytes = m_sha1.ComputeHash(bytes);
-            var hashString = m_sha1Encoding.GetString(hashBytes);
-            return hashString;
+
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in hashBytes)
+            {
+                sb.Append(b.ToString("x2"));
+            }
+
+            return sb.ToString();
         }
 
         private static SHA1 m_sha1 = new SHA1CryptoServiceProvider();

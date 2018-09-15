@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SiteZ11G.Service.IndividualIncomeTax;
 using SiteZ11G.Utils.WechatUtils;
+using System.Threading;
 
 namespace site_UnitTest
 {
@@ -22,12 +23,14 @@ namespace site_UnitTest
         [TestMethod]
         public void TestWeixin()
         {
-            var appid = "";
+            var appid = "wx17b7607bdbe75a64";
             var secret = "";
             Wechat.Init(appid, secret);
 
-            var destUrl = "";
-            Wechat.GetSignature(destUrl);
+            var destUrl = "http://www.cg-zhou.top";
+            var signature = Wechat.GetSignature(destUrl);
+
+            Thread.Sleep(1000000);
         }
     }
 }

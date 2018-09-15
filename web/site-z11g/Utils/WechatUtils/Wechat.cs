@@ -13,10 +13,14 @@ namespace SiteZ11G.Utils.WechatUtils
 
             m_wechatSite = "https://api.weixin.qq.com/cgi-bin/";
 
+#if DEBUG
+            FetchTicket();
+#else
             m_thread = new Thread(Start);
             m_thread.Name = "thread_wechat";
             m_thread.IsBackground = true;
             m_thread.Start();
+#endif
         }
 
         public static Signature GetSignature(string url)
@@ -28,8 +32,8 @@ namespace SiteZ11G.Utils.WechatUtils
             signature.url = url;
 
             var sourceString = string.Join("&",
-                $"{nameof(signature.noncestr)}={signature.noncestr}",
                 $"{nameof(signature.jsapi_ticket)}={signature.jsapi_ticket}",
+                $"{nameof(signature.noncestr)}={signature.noncestr}",
                 $"{nameof(signature.timestamp)}={signature.timestamp}",
                 $"{nameof(signature.url)}={signature.url}");
 
@@ -71,7 +75,10 @@ namespace SiteZ11G.Utils.WechatUtils
 
 
         private static DateTime? m_lastQueryTime;
+
+#if !DEBUG
         private static Thread m_thread;
+#endif
 
         private static string m_appid;
         private static string m_secret;
