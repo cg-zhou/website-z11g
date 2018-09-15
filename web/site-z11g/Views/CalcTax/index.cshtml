@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <!-- 引入样式 -->
 <link rel="stylesheet" href="../../Content/3rdPartyLibs/element-ui/index.css">
 
@@ -37,6 +38,8 @@
 <script src="../../Content/3rdPartyLibs/vue/vue.js"></script>
 <script src="../../Content/3rdPartyLibs/element-ui/index.js"></script>
 <script src="../../Content/3rdPartyLibs/axios/axios.min.js"></script>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 
 <div id="app" v-cloak style="background-color:white;padding-top:200px;padding-bottom:50px;">
     <div style="width: 300px;margin-left:auto;margin-right:auto;">
@@ -139,4 +142,20 @@
             }
         }
     })
+
+    wx.config({
+        debug: true,
+        appId: '@ViewBag.WechatSignature.AppId',
+        timestamp: '@ViewBag.WechatSignature.Timestamp',
+        nonceStr: '@ViewBag.WechatSignature.Noncestr',
+        signature: '@ViewBag.WechatSignature.Signature',
+        jsApiList: ['onMenuShareTimeline']
+    });
+    wx.ready(function () {
+        console.log("wx.ready");
+    });
+    wx.error(function (res) {
+        console.log("wx.error");
+        console.log(res);
+    });
 </script>

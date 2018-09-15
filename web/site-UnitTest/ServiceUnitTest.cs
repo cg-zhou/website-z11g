@@ -23,9 +23,7 @@ namespace site_UnitTest
         [TestMethod]
         public void TestWeixin()
         {
-            var appid = "wx17b7607bdbe75a64";
-            var secret = "";
-            Wechat.Init(appid, secret);
+            Wechat.Init();
 
             var destUrl = "http://www.cg-zhou.top";
             var signature = Wechat.GetSignature(destUrl);

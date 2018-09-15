@@ -13,12 +13,4 @@
         public string ticket { get; set; }
         public int expires_in { get; set; }
     }
-
-    class WechatSignature
-    {
-        public string noncestr { get; set; }
-        public string jsapi_ticket { get; set; }
-        public int timestamp { get; set; }
-        public string url { get; set; }
-    }
 }

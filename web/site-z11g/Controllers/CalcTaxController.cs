@@ -1,5 +1,6 @@
 ﻿using SiteZ11G.Service;
 using SiteZ11G.Service.IndividualIncomeTax;
+using SiteZ11G.Utils.WechatUtils;
 using System.Web.Mvc;
 
 namespace SiteZ11G.Controllers
@@ -10,6 +11,7 @@ namespace SiteZ11G.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "小黄鸭帮你算个税";
+            ViewBag.WechatSignature = Wechat.GetSignature(Request.Url.AbsoluteUri);
             return View();
         }
 

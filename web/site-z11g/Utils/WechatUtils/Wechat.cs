@@ -1,15 +1,16 @@
 ﻿using SiteZ11G.Utils.Web;
 using System;
+using System.Configuration;
 using System.Threading;
 
 namespace SiteZ11G.Utils.WechatUtils
 {
     public static class Wechat
     {
-        public static void Init(string appid, string secret)
+        public static void Init()
         {
-            m_appid = appid;
-            m_secret = secret;
+            m_appid = ConfigurationManager.AppSettings["wechat_appId"];
+            m_secret = ConfigurationManager.AppSettings["wechat_secret"];
 
             m_wechatSite = "https://api.weixin.qq.com/cgi-bin/";
 
@@ -23,27 +24,26 @@ namespace SiteZ11G.Utils.WechatUtils
 #endif
         }
 
-        public static Signature GetSignature(string url)
+        public static WechatSignature GetSignature(string url)
         {
-            var signature = new WechatSignature();
-            signature.noncestr = DateTime.Now.ToString("yyyyMMddHHmmss");
-            signature.jsapi_ticket = m_ticket.ticket;
-            signature.timestamp = (int)(DateTime.Now.Ticks / 1000);
-            signature.url = url;
+            var noncestr = Alogrithm.RandomString();
+            var jsapi_ticket = m_ticket.ticket;
+            var timestamp = (int)(DateTime.Now.Ticks / 1000);
 
             var sourceString = string.Join("&",
-                $"{nameof(signature.jsapi_ticket)}={signature.jsapi_ticket}",
-                $"{nameof(signature.noncestr)}={signature.noncestr}",
-                $"{nameof(signature.timestamp)}={signature.timestamp}",
-                $"{nameof(signature.url)}={signature.url}");
+                $"{nameof(jsapi_ticket)}={jsapi_ticket}",
+                $"{nameof(noncestr)}={noncestr}",
+                $"{nameof(timestamp)}={timestamp}",
+                $"{nameof(url)}={url}");
 
-            var signatureSha1 = Alogrithm.Sha1(sourceString);
-            var result = new Signature()
+            var signature = Alogrithm.Sha1(sourceString);
+            var result = new WechatSignature()
             {
+                AppId = m_appid,
                 Url = url,
-                Sha1 = signatureSha1,
-                Timestamp = signature.timestamp,
-                Noncestr = signature.noncestr,
+                Signature = signature,
+                Timestamp = timestamp,
+                Noncestr = noncestr,
             };
             return result;
         }
