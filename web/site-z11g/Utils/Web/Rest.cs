@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using SiteZ11G.Utils.WechatUtils;
+using System;
 using System.IO;
 using System.Net;
 
@@ -22,6 +24,15 @@ namespace SiteZ11G.Utils.Web
             response.Close();
 
             var result = JsonConvert.DeserializeObject<T>(content);
+
+            if (typeof(T).BaseType == typeof(WechatResponse))
+            {
+                var wechatBase = result as WechatResponse;
+                if (wechatBase.errcode > 0)
+                {
+                    throw new ApplicationException(wechatBase.errmsg);
+                }
+            }
             return result;
         }
     }
