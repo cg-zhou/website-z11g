@@ -17,10 +17,10 @@ namespace SiteZ11G.Utils.WechatUtils
             FetchTicket();
             m_lastQueryTime = DateTime.Now;
 #if !DEBUG
-            //m_thread = new Thread(Start);
-            //m_thread.Name = "thread_wechat";
-            //m_thread.IsBackground = true;
-            //m_thread.Start();
+            m_thread = new Thread(Start);
+            m_thread.Name = "thread_wechat";
+            m_thread.IsBackground = true;
+            m_thread.Start();
 #endif
         }
 

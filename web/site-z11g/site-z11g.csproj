@@ -100,12 +100,12 @@
     <Content Include="Content\3rdPartyLibs\vue\vue.js" />
     <Content Include="Content\css\site.css" />
     <Content Include="Content\Images\duck.jpg" />
-    <Content Include="Content\Images\duck_wechat.jpg" />
     <Content Include="Content\Images\Email.png" />
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\github.png" />
     <Content Include="Content\Images\home.png" />
     <Content Include="Content\Images\Money.png" />
+    <Content Include="Content\js\wechat.js" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
     <Content Include="Content\fonts\old-standard-tt.woff2" />

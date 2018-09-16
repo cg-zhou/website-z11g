@@ -13,7 +13,7 @@ namespace SiteZ11G
             AuthConfig.RegisterOpenAuth();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            Wechat.Init();
+            //Wechat.Init();
         }
 
         void Application_End(object sender, EventArgs e)
