@@ -104,6 +104,7 @@
     <Content Include="Content\Images\Email.png" />
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\github.png" />
+    <Content Include="Content\Images\home.png" />
     <Content Include="Content\Images\Money.png" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />

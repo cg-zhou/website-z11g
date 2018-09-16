@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>@ViewBag.Title</title>
-    <link rel="stylesheet" type="text/css" href="/content/css/site.css?v=20180827">
+    <link rel="stylesheet" type="text/css" href="/content/css/site.css?v=20180917">
     <link rel="icon" href="/content/images/favicon.ico" type="image/x-icon">
 </head>
 
@@ -15,7 +15,7 @@
     </div>
 
     <header class="header">
-        <a href="/">
+        <a href="/?isappinstalled=1">
             <div class="logo">
                 <div class="logo-img">
                     <div class="logo-info">
@@ -35,9 +35,15 @@
 
     <footer class="footer">
         <span>
-            <img src="/content/images/github.png"
-                 onClick="window.open('https://github.com/cg-zhou')"
-                 alt="github">
+            <img src="/content/images/Home.png"
+                 onClick="window.location.href='/Home?isappinstalled=1';"
+                 alt="Home">
+        </span>
+
+        <span style="margin-left:20px;">
+            <img src="/content/images/Money.png"
+                 onClick="window.location.href='/CalcTax?isappinstalled=1';"
+                 alt="CalcTax">
         </span>
 
         <span style="margin-left:20px;">
@@ -47,9 +53,9 @@
         </span>
 
         <span style="margin-left:20px;">
-            <img src="/content/images/Money.png"
-                 onClick="window.location.href='/CalcTax';"
-                 alt="CalcTax">
+            <img src="/content/images/github.png"
+                 onClick="window.open('https://github.com/cg-zhou')"
+                 alt="github">
         </span>
 
         <div class="footer-row" style="margin-top:20px;">
