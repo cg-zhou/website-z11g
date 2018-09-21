@@ -1,10 +1,11 @@
-﻿@{
+﻿@using System.Web.Optimization;
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- 引入样式 -->
 <link rel="stylesheet" href="../../Content/3rdPartyLibs/element-ui/index.css">
-
+@Scripts.Render("~/bundles/script");
 <style>
     .red {
         color: red;
@@ -34,11 +35,6 @@
                 float: right;
             }
 </style>
-
-<script src="../../Content/3rdPartyLibs/vue/vue.js"></script>
-<script src="../../Content/3rdPartyLibs/element-ui/index.js"></script>
-<script src="../../Content/3rdPartyLibs/axios/axios.min.js"></script>
-<script src="../../Content/3rdPartyLibs/bluebird/bluebird.min.js"></script>
 
 @*<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <script src="../../Content/js/wechat.js"></script>
