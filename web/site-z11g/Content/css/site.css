@@ -99,6 +99,9 @@ body {
     opacity: 0;
     filter: alpha(opacity=0);
     z-index: -1;
+}
+
+.logo-for-wechat img {
     max-width: 300px;
 }
 
