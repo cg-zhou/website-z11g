@@ -42,24 +42,29 @@
 
 <div id="app" v-cloak class="banner">
     <div style="width: 300px;margin-left:auto;margin-right:auto;">
-        <el-row>
-            <el-input v-model="form.income"
-                      placeholder="税前收入（月）"
-                      class="tax-input">
-            </el-input>
-        </el-row>
-        <el-row class="tax-row">
-            <el-input v-model="form.incomeWithoutTax"
-                      placeholder="不计个税部分（如社保、公积金等）"
-                      class="tax-input">
-            </el-input>
-        </el-row>
-        <el-row class="tax-row">
-            <el-button type="primary" @@click="calc">计算</el-button>
-            <el-button @@click="clear">清空</el-button>
-        </el-row>
 
-        <el-card style="margin-top: 50px;">
+        <el-form :model="form" ref="form">
+            <el-form-item prop="income"
+                          :rules="[{ required: true, message: '请填写税前收入'},
+                          { type: 'number', message: '请填入数值'}]">
+                <el-input v-model.number="form.income"
+                          placeholder="税前收入（月）"
+                          class="tax-input"></el-input>
+            </el-form-item>
+            <el-form-item prop="incomeWithoutTax"
+                          :rules="[{ required: true, message: '请填写不计个税收入'},
+                          { type: 'number', message: '请填入数值'}]">
+                <el-input v-model.number="form.incomeWithoutTax"
+                          placeholder="不计个税部分（如社保、公积金等）"
+                          class="tax-input"></el-input>
+            </el-form-item>
+            <el-form-item class="tax-row">
+                <el-button type="primary" @@click="calc">提交</el-button>
+                <el-button @@click="clear">重置</el-button>
+            </el-form-item>
+        </el-form>
+
+        <el-card style="margin-top: 30px;">
             <div slot="header">
                 <span class="tax-result" style="font-size:24px;">
                     计算结果
@@ -102,7 +107,7 @@
         data: {
             form: {
                 income: '',
-                incomeWithoutTax: '',
+                incomeWithoutTax: ''
             },
 
             taxBefore2018: 0,
@@ -110,24 +115,29 @@
             differencePerMonth: 0,
             differencePerYear: 0,
             netIncomePerMonthBefore2018: 0,
-            netIncomePerMonthAfter2018: 0,
+            netIncomePerMonthAfter2018: 0
         },
         methods: {
             calc: function () {
                 var self = this;
-                axios.post('/CalcTax/Run', this.form)
-                    .then(function (response) {
-                        console.log(response);
-                        self.taxBefore2018 = response.data.taxBefore2018;
-                        self.taxAfter2018 = response.data.taxAfter2018;
-                        self.differencePerMonth = response.data.differencePerMonth;
-                        self.differencePerYear = response.data.differencePerYear;
-                        self.netIncomePerMonthBefore2018 = response.data.netIncomePerMonthBefore2018;
-                        self.netIncomePerMonthAfter2018 = response.data.netIncomePerMonthAfter2018;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                self.$refs['form'].validate(function (valid) {
+                    if (valid) {
+                        axios.post('/CalcTax/Run', self.form).then(function (response) {
+                            console.log(response);
+                            self.taxBefore2018 = response.data.taxBefore2018;
+                            self.taxAfter2018 = response.data.taxAfter2018;
+                            self.differencePerMonth = response.data.differencePerMonth;
+                            self.differencePerYear = response.data.differencePerYear;
+                            self.netIncomePerMonthBefore2018 = response.data.netIncomePerMonthBefore2018;
+                            self.netIncomePerMonthAfter2018 = response.data.netIncomePerMonthAfter2018;
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
             },
             clear: function () {
                 this.form.income = '';
@@ -140,6 +150,6 @@
                 this.netIncomePerMonthAfter2018 = 0;
             }
         }
-    })
+    });
 
 </script>

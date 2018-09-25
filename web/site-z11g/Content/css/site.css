@@ -31,10 +31,10 @@ body {
 
 .banner {
     background-color: white;
-    padding-top: calc(300px * 0.75);
-    padding-top: calc(var(--logo-diameter) * 0.75);
-    padding-bottom: calc(300px * 0.3);
-    padding-bottom: calc(var(--logo-diameter) * 0.3);
+    padding-top: calc(300px * 0.6);
+    padding-top: calc(var(--logo-diameter) * 0.6);
+    padding-bottom: calc(300px * 0.2);
+    padding-bottom: calc(var(--logo-diameter) * 0.2);
 }
 
 .banner-text {
