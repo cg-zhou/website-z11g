@@ -60,7 +60,7 @@ body {
     margin-bottom: calc(var(--logo-diameter) * 0.1);
 }
 
-    .footer img {
+    .footer .circle-img {
         cursor: pointer;
         max-width: calc(300px * 0.3);
         max-width: calc(var(--logo-diameter) * 0.3);
