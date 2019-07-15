@@ -50,6 +50,7 @@ body {
     font-family: 'old-standard-tt', serif;
     max-width: calc(300px * 2.67);
     max-width: calc(var(--logo-diameter) * 2.67);
+    visibility: hidden;
 }
 
 .footer {
