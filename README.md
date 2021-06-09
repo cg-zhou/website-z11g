@@ -2,7 +2,7 @@
 
 #### 启动脚本
 ```
-docker run --name z11g-nginx -p 80:80 -v [/src]:/usr/share/nginx/html:ro -d nginx
+docker run --name z11g-nginx -p 80:80 metaphor1990/z11g
 ```
 #### 其它
 - [网站地址](http://www.cg-zhou.top)
