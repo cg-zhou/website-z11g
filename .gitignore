@@ -1,7 +1,0 @@
-
-*.user
-*.suo
-web/.vs/*
-web/packages/*
-web/*/bin/*
-web/*/obj/*
