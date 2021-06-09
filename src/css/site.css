@@ -4,7 +4,7 @@ html {
 
 @font-face {
     font-family: old-standard-tt;
-    src: url('/content/fonts/old-standard-tt.eot?#iefix') format('embedded-opentype'), url('/content/fonts/old-standard-tt.woff2') format('woff');
+    src: url('/fonts/old-standard-tt.eot?#iefix') format('embedded-opentype'), url('/fonts/old-standard-tt.woff2') format('woff');
 }
 
 body {
