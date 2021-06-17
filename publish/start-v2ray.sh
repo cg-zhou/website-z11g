@@ -1,0 +1,5 @@
+docker image pull metaphor1990/z11g
+
+docker rm v2ray -f
+
+docker run --name v2ray -p 10086:10086 -d -v /home/cgzhou/v2ray/config.json:/etc/v2ray/config.json v2fly/v2fly-core
