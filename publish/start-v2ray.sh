@@ -1,4 +1,4 @@
-docker image pull metaphor1990/z11g
+docker image pull v2fly/v2fly-core
 
 docker rm v2ray -f
 
