@@ -32,25 +32,26 @@
     </header>
 
     <div class="banner">
-		<div class="banner-text" id="bannerId">
-			Hello I am Chunguang Zhou, 29 years old, full stack developer from LiaoNing, China.
-		</div>
-	</div>
+        <div class="banner-text" id="bannerId">
+            Hello I am Chunguang Zhou, 29 years old, full stack developer from LiaoNing, China.
+        </div>
+    </div>
 
-	<script>
-		window.onload = function (e) {
-			var ageMs = new Date() - new Date(1990, 1, 29);
-			var ageYear = parseInt(ageMs / 1000 / 60 / 60 / 24 / 365.25);
-			var div = document.getElementById('bannerId');
-			div.innerHTML = 'Hello I am Chunguang Zhou, ' + ageYear + ' years old, full stack developer from LiaoNing, China.';
-			div.style.visibility = 'visible';
-		}
-	</script>
+    <script>
+        window.onload = function(e) {
+            var ageMs = new Date() - new Date(1990, 1, 29);
+            var ageYear = parseInt(ageMs / 1000 / 60 / 60 / 24 / 365.25);
+            var div = document.getElementById('bannerId');
+            div.innerHTML = 'Hello I am Chunguang Zhou, ' + ageYear + ' years old, full stack developer from LiaoNing, China.';
+            div.style.visibility = 'visible';
+        }
+    </script>
 
 
     <footer class="footer">
         <span>
             <img class="circle-img"
+                 title="Homepage"
                  src="/images/home.svg"
                  onClick="window.location.href='/?isappinstalled=1';"
                  alt="Home">
@@ -58,6 +59,7 @@
 
         <span>
             <img class="circle-img"
+                 title="Email"
                  src="/images/email.svg"
                  onClick="window.location.href='mailto:z_cg@foxmail.com';"
                  alt="email">
@@ -65,6 +67,7 @@
 
         <span>
             <img class="circle-img"
+                 title="Stack Overflow"
                  src="/images/stackoverflow.svg"
                  onClick="window.open('https://stackoverflow.com/users/5844918/cg-zhou')"
                  alt="stackoverflow">
@@ -72,23 +75,18 @@
 
         <span>
             <img class="circle-img"
+                 title="GitHub"
                  src="/images/github.svg"
                  onClick="window.open('https://github.com/cg-zhou')"
                  alt="github">
         </span>
 
         <div class="footer-row" style="margin-top:20px;">
-            <a href="https://github.com/996icu/996.ICU/blob/master/LICENSE"
-               target="view_window"
-               style="text-decoration: none;">
-                <img src="https://img.shields.io/badge/license-Anti%20996-blue.svg"
-                     alt="Anti 996" />
+            <a href="https://github.com/996icu/996.ICU/blob/master/LICENSE" target="view_window" style="text-decoration: none;">
+                <img src="https://img.shields.io/badge/license-Anti%20996-blue.svg" alt="Anti 996" />
             </a>
-            <a href="https://996.icu"
-               target="view_window"
-               style="text-decoration: none;margin-left: 10px;">
-                <img src="https://img.shields.io/badge/link-996.icu-red.svg"
-                     alt="996.icu" />
+            <a href="https://996.icu" target="view_window" style="text-decoration: none;margin-left: 10px;">
+                <img src="https://img.shields.io/badge/link-996.icu-red.svg" alt="996.icu" />
             </a>
         </div>
 
