@@ -1,5 +1,3 @@
-## My Homepage(website-z11g)
-
 #### Install
 ```
  curl https://raw.githubusercontent.com/cg-zhou/website-z11g/master/publish/install.sh | sh
