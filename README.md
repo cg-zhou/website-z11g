@@ -1,8 +1,8 @@
 ## My Homepage(website-z11g)
 
-#### Startup
+#### Install
 ```
-docker run --name z11g-nginx -p 80:80 -d metaphor1990/z11g
+ curl https://raw.githubusercontent.com/cg-zhou/website-z11g/master/publish/install.sh | sh
 ```
 #### Others
 - [Domain](http://www.cg-zhou.top)
