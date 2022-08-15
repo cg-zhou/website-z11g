@@ -1,17 +1,16 @@
-sudo apt update
+# install unzip
+sudo apt-get update
+sudo apt install unzip
 
-sudo apt install docker.io
+# install docker/docker-compose
+curl -fsSL https://get.docker.com | bash -s docker
 
-sudo groupadd docker
+# start docker v2ray
+docker image pull v2fly/v2fly-core
+docker rm v2ray -f
+docker run --restart=always --name v2ray -p 10086:10086 -d -v $PWD/v2ray/config.json:/etc/v2ray/config.json v2fly/v2fly-core
 
-sudo gpasswd -a $USER docker
-
-newgrp docker
-
-chmod u+x ./start-z11g.sh
-
-./start-z11g.sh
-
-chmod u+x ./start-v2ray.sh
-
-./start-v2ray.sh
+# start docker z11g
+docker image pull metaphor1990/z11g
+docker rm -f z11g-nginx
+docker run --restart=always --name z11g-nginx -p 80:80 -p 443:443 -d -v $PWD/nginx:/etc/nginx/conf.d metaphor1990/z11g
