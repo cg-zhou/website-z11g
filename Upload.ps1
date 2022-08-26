@@ -2,11 +2,11 @@ $Domain = "cg-zhou.top"
 $Ip = [System.Net.Dns]::GetHostAddresses($Domain).IPAddressToString
 
 function PrintLable ($Text) {
-    Write-Host $Text -ForegroundColor Blue    
+    Write-Host $Text -ForegroundColor Green
 }
 
 function PrintText ($Text) {
-    Write-Host $Text -ForegroundColor White    
+    Write-Host $Text -ForegroundColor White
 }
 
 PrintLable
@@ -23,30 +23,18 @@ if (-not (Test-Path $File)) {
     return;
 }
 
-$ZipFileName = "$(Get-Date -Format 'yyyy-MM-dd_HH-mm-ss').zip"
-$ZipPath = "$env:TEMP\$ZipFileName"
+$FileName = $(Get-Item $File).Name
 
 PrintLable 
-PrintLable "Compress $File to temporary ZIP file $ZipPath"
-Compress-Archive -Path $File -DestinationPath $ZipPath
+PrintLable "Copy $File to remote server ${Ip}"
+Invoke-Expression "scp $File cgzhou@${Ip}:/home/cgzhou/publish/nginx"
 
 PrintLable 
-PrintLable "Copy $ZipPath to remote server ${Ip}"
-Invoke-Expression "scp $ZipPath cgzhou@${Ip}:/home/cgzhou/publish/nginx"
+PrintLable "Deploy $FileName into nginx container"
+Invoke-Expression "ssh cgzhou@$Ip 'docker cp /home/cgzhou/publish/nginx/$FileName z11g-nginx:/usr/share/nginx/html;
+rm /home/cgzhou/publish/nginx/$FileName'"
 
-PrintLable 
-PrintLable "Deploy $ZipFileName into nginx container"
-Invoke-Expression "ssh cgzhou@$Ip 'docker cp /home/cgzhou/publish/nginx/$ZipFileName z11g-nginx:/usr/share/nginx/html'"
-
-PrintLable 
-PrintLable "Delete temporary file in the remote server ${Ip}"
-Invoke-Expression "ssh cgzhou@$Ip 'rm /home/cgzhou/publish/nginx/*.zip'"
-
-PrintLable
-PrintLable "Delete local temporary file: $ZipPath"
-Remove-Item $ZipPath
-
-$PublishUrl = "https://$Domain/$ZipFileName"
+$PublishUrl = "https://$Domain/$FileName"
 PrintLable
 PrintLable "The result link is:"
 PrintText $PublishUrl
