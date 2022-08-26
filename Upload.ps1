@@ -1,40 +1,47 @@
 $Domain = "cg-zhou.top"
 $Ip = [System.Net.Dns]::GetHostAddresses($Domain).IPAddressToString
 
-function PrintLable ($Text) {
-    Write-Host $Text -ForegroundColor Green
+function Print ($Text, $Color) {
+    if ($null -eq $Color) {
+        Write-Host $Text
+    }
+    else {
+        Write-Host $Text -ForegroundColor $Color
+    }
 }
 
-function PrintText ($Text) {
-    Write-Host $Text -ForegroundColor White
-}
+Print
+Print "The IP of $Domain is:" Green
+Print "$Ip"
 
-PrintLable
-PrintLable "The IP of $Domain is:"
-PrintText "$Ip"
-
-PrintLable
-PrintLable "Please input the file path:"
+Print
+Print "Please input the file path:" Green
 $File = Read-Host 
 
 if (-not (Test-Path $File)) {
-    PrintLable "Can't find the file:"
-    PrintText "$File"
+    Print "Can't find the file:"
+    Print "$File"
     return;
 }
 
 $FileName = $(Get-Item $File).Name
 
-PrintLable 
-PrintLable "Copy $File to remote server ${Ip}"
-Invoke-Expression "scp $File cgzhou@${Ip}:/home/cgzhou/publish/nginx"
+Print 
+Print "Copy $File to remote server ${Ip}" Green
+Invoke-Expression "scp $File cgzhou@${Ip}:/tmp"
 
-PrintLable 
-PrintLable "Deploy $FileName into nginx container"
-Invoke-Expression "ssh cgzhou@$Ip 'docker cp /home/cgzhou/publish/nginx/$FileName z11g-nginx:/usr/share/nginx/html;
-rm /home/cgzhou/publish/nginx/$FileName'"
+Print 
+Print "Deploy $FileName into nginx container" Green
 
-$PublishUrl = "https://$Domain/$FileName"
-PrintLable
-PrintLable "The result link is:"
-PrintText $PublishUrl
+$Command = "docker exec z11g-nginx mkdir -p /usr/share/nginx/html/download; "
+$Command += "docker cp /tmp/$FileName z11g-nginx:/usr/share/nginx/html/download/$FileName; "
+$Command += "echo 'All files:'; "
+$Command += "docker exec z11g-nginx ls -lah /usr/share/nginx/html/download; "
+$Command += "rm /tmp/$FileName; "
+Invoke-Expression "ssh cgzhou@$Ip '$Command'"
+
+$PublishUrl = "https://$Domain/download/$FileName"
+Print
+Print "The result link is:" Green
+Print $PublishUrl Yellow
+Print
