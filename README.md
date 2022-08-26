@@ -5,7 +5,7 @@
 
 ### Upload file to web server
 ```
-iex (iwr https://raw.githubusercontent.com/cg-zhou/website-z11g/master/Upload.ps1).Conent
+iex (iwr https://raw.githubusercontent.com/cg-zhou/website-z11g/master/Upload.ps1).Content
 ```
 
 #### Others
