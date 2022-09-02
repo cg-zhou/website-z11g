@@ -23,7 +23,8 @@ $fileName = ""
 if ($uri.StartsWith("http")) {
     $isLocalFile = $false
     $fileName = $uri.Substring($uri.LastIndexOf("/") + 1)
-} else {
+}
+else {
     if (-not (Test-Path $uri)) {
         Print "Can't find the file:"
         Print "$uri"
@@ -45,7 +46,7 @@ Print
 Print "Execute remote commands:" Green
 
 $cmd = ""
-if (-not $isLocalFile){
+if (-not $isLocalFile) {
     $cmd += "wget $uri -O /tmp/$fileName; "
 }
 $cmd += "docker exec z11g-nginx mkdir -p /usr/share/nginx/html/download; "
