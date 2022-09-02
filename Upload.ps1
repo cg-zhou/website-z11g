@@ -1,47 +1,62 @@
-$Domain = "cg-zhou.top"
-$Ip = [System.Net.Dns]::GetHostAddresses($Domain).IPAddressToString
+$domain = "cg-zhou.top"
+$ip = [System.Net.Dns]::GetHostAddresses($domain).IPAddressToString
 
-function Print ($Text, $Color) {
-    if ($null -eq $Color) {
-        Write-Host $Text
+function Print ($text, $color) {
+    if ($null -eq $color) {
+        Write-Host $text
     }
     else {
-        Write-Host $Text -ForegroundColor $Color
+        Write-Host $text -ForegroundColor $color
     }
 }
 
 Print
-Print "The IP of $Domain is:" Green
-Print "$Ip"
+Print "The IP of $domain is:" Green
+Print "$ip"
 
 Print
-Print "Please input the file path:" Green
-$File = Read-Host 
+Print "Please input the file path or file URL:" Green
+$uri = Read-Host 
 
-if (-not (Test-Path $File)) {
-    Print "Can't find the file:"
-    Print "$File"
-    return;
+$isLocalFile = $true
+$fileName = ""
+if ($uri.StartsWith("http")) {
+    $isLocalFile = $false
+    $fileName = $uri.Substring($uri.LastIndexOf("/") + 1)
+} else {
+    if (-not (Test-Path $uri)) {
+        Print "Can't find the file:"
+        Print "$uri"
+        return;
+    }
+    
+    $fileName = $(Get-Item $uri).Name
+
+    Print 
+    Print "Copy $uri to remote server ${Ip}" Green
+    Invoke-Expression "scp $uri cgzhou@${Ip}:/tmp"
 }
 
-$FileName = $(Get-Item $File).Name
+Print
+Print "The file name is:" Green
+Print "$fileName"
 
 Print 
-Print "Copy $File to remote server ${Ip}" Green
-Invoke-Expression "scp $File cgzhou@${Ip}:/tmp"
+Print "Execute remote commands:" Green
 
-Print 
-Print "Deploy $FileName into nginx container" Green
+$cmd = ""
+if (-not $isLocalFile){
+    $cmd += "wget $uri -O /tmp/$fileName; "
+}
+$cmd += "docker exec z11g-nginx mkdir -p /usr/share/nginx/html/download; "
+$cmd += "docker cp /tmp/$fileName z11g-nginx:/usr/share/nginx/html/download/$fileName; "
+$cmd += "echo 'All files:'; "
+$cmd += "docker exec z11g-nginx ls -lah /usr/share/nginx/html/download; "
+$cmd += "rm /tmp/$fileName; "
+Invoke-Expression "ssh cgzhou@$ip '$cmd'"
 
-$Command = "docker exec z11g-nginx mkdir -p /usr/share/nginx/html/download; "
-$Command += "docker cp /tmp/$FileName z11g-nginx:/usr/share/nginx/html/download/$FileName; "
-$Command += "echo 'All files:'; "
-$Command += "docker exec z11g-nginx ls -lah /usr/share/nginx/html/download; "
-$Command += "rm /tmp/$FileName; "
-Invoke-Expression "ssh cgzhou@$Ip '$Command'"
-
-$PublishUrl = "https://$Domain/download/$FileName"
+$result = "https://$domain/download/$fileName"
 Print
 Print "The result link is:" Green
-Print $PublishUrl Yellow
+Print $result Yellow
 Print
