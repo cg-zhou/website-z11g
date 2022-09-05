@@ -23,6 +23,12 @@ $fileName = ""
 if ($uri.StartsWith("http")) {
     $isLocalFile = $false
     $fileName = $uri.Substring($uri.LastIndexOf("/") + 1)
+
+    $response = Invoke-WebRequest -Method Head $uri -TimeoutSec 10
+    $headerFilenName = $response.Headers['content-disposition'] -replace '.*\bfilename=(.+)(?: |$)', '$1'
+    if ($headerFilenName.Length -gt 0) {
+        $fileName = $headerFilenName
+    }
 }
 else {
     if (-not (Test-Path $uri)) {
