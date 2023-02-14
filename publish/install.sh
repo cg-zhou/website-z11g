@@ -18,16 +18,18 @@ mkdir nginx
 
 cd ~/workspace/v2ray
 wget https://raw.githubusercontent.com/cg-zhou/website-z11g/master/publish/v2ray/config.json
+curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
+
+# start v2ray
+sudo bash install-release.sh
+sudo cp ~/workspace/v2ray/config.json /usr/local/etc/v2ray/config.json
+sudo systemctl restart v2ray
+sudo systemctl status v2ray
 
 cd ~/workspace/nginx
 wget https://raw.githubusercontent.com/cg-zhou/website-z11g/master/publish/nginx/default.conf
 wget https://raw.githubusercontent.com/cg-zhou/website-z11g/master/publish/nginx/cg-zhou.top.key
 wget https://raw.githubusercontent.com/cg-zhou/website-z11g/master/publish/nginx/cg-zhou.top.pem
-
-# start docker v2ray
-docker image pull v2fly/v2fly-core
-docker rm v2ray -f
-docker run --restart=always --name v2ray -p 10086:10086 -d -v ~/workspace/v2ray/config.json:/etc/v2ray/config.json v2fly/v2fly-core run -c /etc/v2ray/config.json
 
 # start docker z11g
 docker image pull metaphor1990/z11g
