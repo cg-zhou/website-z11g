@@ -1,0 +1,35 @@
+name: Package and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  package-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create ZIP file
+        run: |
+          zip -r source_code.zip .
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0
+          release_name: Release v1.0.0
+          body: |
+            Changes in this release:
+            - Added feature A
+            - Fixed bug B
+          draft: false
+          prerelease: false
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: source-code
+          path: source_code.zip
