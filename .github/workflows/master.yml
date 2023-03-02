@@ -11,25 +11,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Generate tag name
+        id: tag-name
+        run: echo "::set-output name=tag_name::v$(date +'%Y%m%d-%H%M%S')"
+
       - name: Create ZIP file
         run: |
-          zip -r source_code.zip .
+          zip -r website.zip ./src
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v1.0.1
-          release_name: Release v1.0.1
+          tag_name: ${{ steps.tag-name.outputs.tag_name }}
+          release_name: ${{ steps.tag-name.outputs.tag_name }}
           body: |
-            Changes in this release:
-            - Added feature A
-            - Fixed bug B
+            Release website.
           draft: false
           prerelease: false
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: source-code
-          path: source_code.zip
+          name: website
+          path: website.zip
