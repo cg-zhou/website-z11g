@@ -18,7 +18,7 @@ jobs:
 
       - name: Create ZIP file
         run: |
-          zip -r website.zip ./src/
+          zip -r website.zip ./src/*
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
