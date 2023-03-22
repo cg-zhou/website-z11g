@@ -10,8 +10,11 @@
     <div style="display: flex; flex-direction: column; margin-left: 2vw;">
         <h3>1. 选择图像文件</h3>
         <input type="file" id="image-input" accept="image/*">
-        <h3>2. 设置宽高</h3>
+        <h3>2. 设置参数</h3>
         <div>
+            <div>
+                <span>去色：</span><input type="checkbox" id="grayscaleCheckbox">
+            </div>
             <div>
                 <span>保持比例：</span><input type="checkbox" id="keepRatioCheckbox">
             </div>
@@ -46,6 +49,9 @@
         const keepRatioCheckbox = document.getElementById('keepRatioCheckbox');
         keepRatioCheckbox.checked = true;
 
+        const grayscaleCheckbox = document.getElementById('grayscaleCheckbox');
+        grayscaleCheckbox.checked = false;
+
         widthInput.addEventListener('input', (event) => {
             if (keepRatioCheckbox.checked) {
                 heightInput.value = Math.floor(event.target.value / img.naturalWidth * img.naturalHeight);
@@ -60,6 +66,10 @@
             refresh(widthInput.value, event.target.value);
         });
 
+        grayscaleCheckbox.addEventListener('input', () => {
+            refresh(widthInput.value, heightInput.value);
+        });
+
         let ratioButtons = document.querySelectorAll('.ratio-button');
         for (let button of ratioButtons) {
             button.addEventListener('click', function () {
@@ -69,6 +79,23 @@
 
                 refresh(widthInput.value, heightInput.value);
             });
+        }
+
+        function grayscale(ctx, canvas) {
+            // get the image data from the canvas
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+
+            // iterate over all pixels and convert to grayscale
+            for (var i = 0; i < data.length; i += 4) {
+                var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                data[i] = avg; // red
+                data[i + 1] = avg; // green
+                data[i + 2] = avg; // blue
+            }
+
+            // update the canvas with the new image data
+            ctx.putImageData(imageData, 0, 0);
         }
 
         function refresh(width, height) {
@@ -84,6 +111,10 @@
 
             var ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, width, height);
+
+            if (grayscaleCheckbox.checked) {
+                grayscale(ctx, canvas);
+            }
 
             // show resized image in preview element
             let dataUrl = canvas.toDataURL('image/jpeg');
