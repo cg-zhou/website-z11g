@@ -1,0 +1,131 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>图像工具</title>
+</head>
+
+<body>
+    <div style="display: flex; flex-direction: column; margin-left: 2vw;">
+        <h3>1. 选择图像文件</h3>
+        <input type="file" id="image-input" accept="image/*">
+        <h3>2. 设置宽高</h3>
+        <div>
+            <div>
+                <span>保持比例：</span><input type="checkbox" id="keepRatioCheckbox">
+            </div>
+            <label>宽度: </label><input type="number" id="width-input"><br>
+            <label>高度: </label><input type="number" id="height-input"><br>
+            <div style="margin-top: 10px;">
+                <button class="ratio-button" data-ratio="1">100%</button>
+                <button class="ratio-button" data-ratio="0.8">80%</button>
+                <button class="ratio-button" data-ratio="0.5">50%</button>
+                <button class="ratio-button" data-ratio="0.25">25%</button>
+                <button class="ratio-button" data-ratio="0.1">10%</button>
+            </div>
+        </div>
+        <h3>3. 预览图像</h3>
+        <div style="max-width:80vw;max-height:50vh;overflow: auto;">
+            <img id="preview"></img>
+        </div>
+        <h3>4. 下载图像</h3>
+        <a id="download-link" href="#" download="image.jpg">
+            <button>下载</button>
+        </a>
+    </div>
+
+    <script>
+        let img = null;
+
+        let fileNameWithoutExtension = 'image';
+
+        const widthInput = document.getElementById('width-input');
+        const heightInput = document.getElementById('height-input');
+
+        const keepRatioCheckbox = document.getElementById('keepRatioCheckbox');
+        keepRatioCheckbox.checked = true;
+
+        widthInput.addEventListener('input', (event) => {
+            if (keepRatioCheckbox.checked) {
+                heightInput.value = Math.floor(event.target.value / img.naturalWidth * img.naturalHeight);
+            }
+            refresh(event.target.value, heightInput.value);
+        });
+
+        heightInput.addEventListener('input', (event) => {
+            if (keepRatioCheckbox.checked) {
+                widthInput.value = Math.floor(event.target.value / img.naturalHeight * img.naturalWidth);
+            }
+            refresh(widthInput.value, event.target.value);
+        });
+
+        let ratioButtons = document.querySelectorAll('.ratio-button');
+        for (let button of ratioButtons) {
+            button.addEventListener('click', function () {
+                let ratio = parseFloat(this.getAttribute('data-ratio'));
+                widthInput.value = Math.floor(ratio * img.naturalWidth);
+                heightInput.value = Math.floor(ratio * img.naturalHeight);
+
+                refresh(widthInput.value, heightInput.value);
+            });
+        }
+
+        function refresh(width, height) {
+            if (width < 1 || width > 100000
+                || height < 1 || height > 100000) {
+                console.warn('invalid width / height value.');
+            }
+
+            // dynamically create a canvas element
+            var canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // show resized image in preview element
+            let dataUrl = canvas.toDataURL('image/jpeg');
+            document.getElementById("preview").src = dataUrl;
+
+            // update download link
+            let x_img = document.getElementById('preview');
+            let link = document.getElementById('download-link');
+            link.href = x_img.src;
+            link.setAttribute('download', `new-${fileNameWithoutExtension}_${width}x${height}.jpg`);
+        }
+
+        let imgInput = document.getElementById('image-input');
+        imgInput.addEventListener('change', function (e) {
+            if (e.target.files) {
+                let imageFile = e.target.files[0];
+
+                var index = imageFile.name.lastIndexOf('.');
+                if (index > 0) {
+                    fileNameWithoutExtension = imageFile.name.slice(0, index);
+                } else {
+                    fileNameWithoutExtension = 'image';
+                }
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    img = document.createElement("img");
+                    img.onload = function (event) {
+                        console.log(`Image size: ${img.naturalWidth} x ${img.naturalHeight}`);
+
+                        widthInput.value = img.naturalWidth;
+                        heightInput.value = img.naturalHeight;
+
+                        refresh(img.naturalWidth, img.naturalHeight);
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(imageFile);
+            }
+        });
+
+    </script>
+</body>
+
+</html>
