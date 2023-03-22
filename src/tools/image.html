@@ -13,7 +13,10 @@
         <h3>2. 设置参数</h3>
         <div>
             <div>
-                <span>去色：</span><input type="checkbox" id="grayscaleCheckbox">
+                <span>灰阶：</span><input type="checkbox" id="grayscaleCheckbox">
+            </div>
+            <div>
+                <span>反色：</span><input type="checkbox" id="invertCheckbox">
             </div>
             <div>
                 <span>保持比例：</span><input type="checkbox" id="keepRatioCheckbox">
@@ -52,6 +55,9 @@
         const grayscaleCheckbox = document.getElementById('grayscaleCheckbox');
         grayscaleCheckbox.checked = false;
 
+        const invertCheckbox = document.getElementById('invertCheckbox');
+        invertCheckbox.checked = false;
+
         widthInput.addEventListener('input', (event) => {
             if (keepRatioCheckbox.checked) {
                 heightInput.value = Math.floor(event.target.value / img.naturalWidth * img.naturalHeight);
@@ -70,6 +76,10 @@
             refresh(widthInput.value, heightInput.value);
         });
 
+        invertCheckbox.addEventListener('input', () => {
+            refresh(widthInput.value, heightInput.value);
+        });
+
         let ratioButtons = document.querySelectorAll('.ratio-button');
         for (let button of ratioButtons) {
             button.addEventListener('click', function () {
@@ -79,6 +89,21 @@
 
                 refresh(widthInput.value, heightInput.value);
             });
+        }
+
+        function invert(ctx, canvas) {
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+
+            // invert colors
+            for (var i = 0; i < data.length; i += 4) {
+                data[i] = 255 - data[i];
+                data[i + 1] = 255 - data[i + 1];
+                data[i + 2] = 255 - data[i + 2];
+                data[i + 3] = 255;
+            }
+
+            ctx.putImageData(imageData, 0, 0);
         }
 
         function grayscale(ctx, canvas) {
@@ -114,6 +139,10 @@
 
             if (grayscaleCheckbox.checked) {
                 grayscale(ctx, canvas);
+            }
+
+            if (invertCheckbox.checked) {
+                invert(ctx, canvas);
             }
 
             // show resized image in preview element
