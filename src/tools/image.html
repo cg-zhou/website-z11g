@@ -37,7 +37,7 @@
             <img id="preview"></img>
         </div>
         <h3>4. 下载图像</h3>
-        <a id="download-link" href="#" download="image.jpg">
+        <a id="download-link" href="#">
             <button>下载</button>
         </a>
     </div>
@@ -46,6 +46,7 @@
         let img = null;
 
         let fileNameWithoutExtension = 'image';
+        let fileNameExtension = '.jpg';
 
         const widthInput = document.getElementById('width-input');
         const heightInput = document.getElementById('height-input');
@@ -147,14 +148,14 @@
             }
 
             // show resized image in preview element
-            let dataUrl = canvas.toDataURL('image/jpeg');
+            let dataUrl = canvas.toDataURL(`image/${fileNameExtension.substring(1)}`);
             document.getElementById("preview").src = dataUrl;
 
             // update download link
             let x_img = document.getElementById('preview');
             let link = document.getElementById('download-link');
             link.href = x_img.src;
-            link.setAttribute('download', `new-${fileNameWithoutExtension}_${width}x${height}.jpg`);
+            link.setAttribute('download', `new-${fileNameWithoutExtension}_${width}x${height}${fileNameExtension}`);
         }
 
         let imgInput = document.getElementById('image-input');
@@ -165,8 +166,10 @@
                 var index = imageFile.name.lastIndexOf('.');
                 if (index > 0) {
                     fileNameWithoutExtension = imageFile.name.slice(0, index);
+                    fileNameExtension = imageFile.name.slice(index);
                 } else {
                     fileNameWithoutExtension = 'image';
+                    fileNameExtension = '.jpg';
                 }
 
                 var reader = new FileReader();
