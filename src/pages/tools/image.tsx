@@ -50,7 +50,7 @@ export default function Image() {
     let ratioButtons = document.querySelectorAll(".ratio-button");
     for (let button of ratioButtons as any) {
       button.addEventListener("click", function () {
-        let ratio = parseFloat(this.getAttribute("data-ratio"));
+        let ratio = parseFloat(button.getAttribute("data-ratio"));
         widthInput.value = Math.floor(ratio * img.naturalWidth);
         heightInput.value = Math.floor(ratio * img.naturalHeight);
 
