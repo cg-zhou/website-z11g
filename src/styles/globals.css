@@ -37,9 +37,29 @@ html {
   }
 }
 
+.navigation-bar {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  justify-content: center;
+  color: #ddd;
+}
+
+.navigation-bar > a {
+  color: #ddd;
+  border-bottom: solid 1px;
+}
+
+.navigation-bar > a:hover {
+  color: #fff;
+}
+
 .header {
-  height: calc(300px * 0.75);
-  height: calc(var(--logo-diameter) * 0.75);
+  height: calc(300px * 0.5);
+  height: calc(var(--logo-diameter) * 0.5);
   text-align: center;
 }
 
@@ -138,8 +158,6 @@ html {
   background-image: url(/images/duck.jpg);
   background-size: 300px;
   background-size: var(--logo-diameter);
-  margin-top: calc(300px * 0.25);
-  margin-top: calc(var(--logo-diameter) * 0.25);
   cursor: default;
   box-shadow: inset 0 0 0 16px rgba(255, 255, 255, 0.6),
     0 1px 2px rgba(0, 0, 0, 0.1);
@@ -245,4 +263,64 @@ html {
   column-gap: 12px;
   margin-top: 24px;
   margin-bottom: 12px;
+}
+
+.tool-layout {
+  background: white;
+  display: flex;
+  justify-content: center;
+}
+
+.tool-layout > div {
+  max-width: 800px;
+  overflow-x: auto;
+  margin-bottom: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.tool-layout h3 {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.tool-layout textarea {
+  border: solid 1px black;
+  border-radius: 3px;
+  padding: 5px 8px;
+  width: 400px;
+}
+
+.tool-layout .row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tool-layout input[type="number"] {
+  border: solid 1px black;
+  border-radius: 3px;
+  padding-left: 8px;
+}
+
+.tool-layout input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+}
+.tool-layout input[type="checkbox"]:checked {
+  accent-color: black;
+}
+
+.tool-layout button {
+  background-color: black;
+  color: #ddd;
+  padding: 2px 10px;
+  border-radius: 4px;
+}
+
+.tool-layout button:hover {
+  color: #fff;
+  background-color: #222;
 }

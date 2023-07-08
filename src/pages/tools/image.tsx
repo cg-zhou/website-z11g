@@ -1,10 +1,11 @@
 import Head from "next/head";
 import { useEffect } from "react";
+import ToolLayout from "../_toolLayout";
 
 export default function Image() {
-  useEffect(() => {
-    let img: any = null;
+  let img: any = null;
 
+  useEffect(() => {
     let fileNameWithoutExtension = "image";
     let fileNameExtension = ".jpg";
 
@@ -128,6 +129,9 @@ export default function Image() {
     imgInput.addEventListener("change", function (e: any) {
       if (e.target.files) {
         let imageFile = e.target.files[0];
+        if (!imageFile) {
+          return;
+        }
 
         var index = imageFile.name.lastIndexOf(".");
         if (index > 0) {
@@ -158,68 +162,63 @@ export default function Image() {
     });
   }, []);
 
+  const labelStyle = { minWidth: 80 };
   return (
-    <div style={{ background: "white" }}>
+    <ToolLayout>
       <Head>
         <title>图像工具</title>
       </Head>
-      <div
-        className="flex-auto flex-col"
-        //   style="display: flex; flex-direction: column; margin-left: 2vw;"
-      >
-        <h3>1. 选择图像文件</h3>
-        <input type="file" id="image-input" accept="image/*" />
-        <h3>2. 设置参数</h3>
-        <div>
-          <div>
-            <span>灰阶：</span>
-            <input type="checkbox" id="grayscaleCheckbox" />
-          </div>
-          <div>
-            <span>反色：</span>
-            <input type="checkbox" id="invertCheckbox" />
-          </div>
-          <div>
-            <span>保持比例：</span>
-            <input type="checkbox" id="keepRatioCheckbox" />
-          </div>
-          <label>宽度: </label>
-          <input type="number" id="width-input" />
-          <br />
-          <label>高度: </label>
-          <input type="number" id="height-input" />
-          <br />
-          <div
-          //   style="margin-top: 10px;"
-          >
-            <button className="ratio-button" data-ratio="1">
-              100%
-            </button>
-            <button className="ratio-button" data-ratio="0.8">
-              80%
-            </button>
-            <button className="ratio-button" data-ratio="0.5">
-              50%
-            </button>
-            <button className="ratio-button" data-ratio="0.25">
-              25%
-            </button>
-            <button className="ratio-button" data-ratio="0.1">
-              10%
-            </button>
-          </div>
-        </div>
-        <h3>3. 预览图像</h3>
-        <div
-        // style="max-width:80vw;max-height:50vh;overflow: auto;"
-        >
-          <img id="preview"></img>
-        </div>
-        <h3>4. 下载图像</h3>
+      <h3>1. 选择图像文件</h3>
+      <input type="file" id="image-input" accept="image/*" />
+      <h3>2. 设置参数</h3>
+      <div className="row">
+        <label style={labelStyle}>灰阶：</label>
+        <input type="checkbox" id="grayscaleCheckbox" />
+      </div>
+      <div className="row">
+        <label style={labelStyle}>反色：</label>
+        <input type="checkbox" id="invertCheckbox" />
+      </div>
+      <div className="row">
+        <label style={labelStyle}>保持比例：</label>
+        <input type="checkbox" id="keepRatioCheckbox" />
+      </div>
+      <div className="row">
+        <label style={labelStyle}>宽度: </label>
+        <input type="number" id="width-input" />
+      </div>
+      <div className="row">
+        <label style={labelStyle}>高度: </label>
+        <input type="number" id="height-input" />
+      </div>
+      <div className="row" style={{ columnGap: 5 }}>
+        <label style={labelStyle}>一键设置: </label>
+        <button className="ratio-button" data-ratio="1">
+          100%
+        </button>
+        <button className="ratio-button" data-ratio="0.8">
+          80%
+        </button>
+        <button className="ratio-button" data-ratio="0.5">
+          50%
+        </button>
+        <button className="ratio-button" data-ratio="0.25">
+          25%
+        </button>
+        <button className="ratio-button" data-ratio="0.1">
+          10%
+        </button>
+      </div>
+      <h3>3. 预览图像</h3>
+      <div style={{ maxWidth: "80vw", maxHeight: "50vh", overflow: "auto" }}>
+        <img id="preview"></img>
+      </div>
+      <h3>4. 下载图像</h3>
+      <div>
         <a id="download-link" href="#">
           <button>下载</button>
         </a>
       </div>
-    </div>
+    </ToolLayout>
   );
 }

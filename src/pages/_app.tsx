@@ -23,6 +23,15 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
       </Head>
+
+      <div className="navigation-bar">
+        <Link href="/">主页</Link>
+        <span>|</span>
+        <Link href="/tools/image">图像处理</Link>
+        <span>|</span>
+        <Link href="/tools/color">颜色叠加</Link>
+      </div>
+
       <Component {...pageProps} />
       <footer className="footer">
         <div className="footer-icons-row">

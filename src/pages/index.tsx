@@ -5,6 +5,8 @@ import duckJpg from "../public/images/duck.jpg";
 
 import Head from "next/head";
 
+import * as React from 'react';
+
 export default function Home() {
   return (
     <div>
@@ -16,16 +18,16 @@ export default function Home() {
       </div>
 
       <header className="header">
-        <Link href="/">
-          <div className="logo">
-            <div className="logo-img">
+        <div className="logo">
+          <div className="logo-img">
+            <Link href="/">
               <div className="logo-info">
                 <h3>Definition is procedure</h3>
                 <p>by cg-zhou</p>
               </div>
-            </div>
+            </Link>
           </div>
-        </Link>
+        </div>
       </header>
 
       <div className="banner">

@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useEffect } from "react";
+import ToolLayout from "../_toolLayout";
 
 export default function Color() {
   useEffect(() => {
@@ -102,20 +103,17 @@ export default function Color() {
   }, []);
 
   return (
-    <div style={{ background: "white" }}>
+    <>
       <Head>
         <title>颜色工具</title>
       </Head>
-      <div
-        style={{ display: "flex", flexDirection: "column", marginLeft: "2vw" }}
-      >
+      <ToolLayout>
         <h3>1. 输入参数</h3>
         <div>每行输入一个颜色，格式为 r, g, b 或 #RRGGBB</div>
         <textarea
           id="colorInput"
-          rows={8}
+          rows={5}
           cols={20}
-          style={{ width: "400px", margin: "10px 0", fontSize: "16px" }}
         ></textarea>
         <div>
           <button id="view">查看</button>
@@ -156,7 +154,7 @@ export default function Color() {
           ></div>
           <div id="colorInfo" style={{ fontWeight: "bold" }}></div>
         </div>
-      </div>
-    </div>
+      </ToolLayout>
+    </>
   );
 }
