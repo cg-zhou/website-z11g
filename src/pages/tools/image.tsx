@@ -182,7 +182,7 @@ export default function Image() {
       </div>
       <div className="row">
         <label style={labelStyle}>
-          {localize("image_processor_step2_reverse_color")}
+          {localize("image_processor_step2_invert_color")}
         </label>
         <input type="checkbox" id="invertCheckbox" />
       </div>
