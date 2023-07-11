@@ -108,21 +108,22 @@ export default function Color() {
   return (
     <>
       <Head>
-        <title>{localize('color_mixer_page_title')}</title>
+        <title>{localize("color_mixer_page_title")}</title>
       </Head>
       <ToolLayout>
-        <h3>{localize('color_mixer_step1_title')}</h3>
-        <div>{localize('color_mixer_step1_description')}</div>
+        <h3>{localize("color_mixer_step1_title")}</h3>
+        <div>{localize("color_mixer_step1_description")}</div>
         <textarea
           id="colorInput"
           rows={5}
           cols={20}
+          style={{ maxWidth: "80vw" }}
         ></textarea>
         <div>
-          <button id="view">{localize('color_mixer_step2_view')}</button>
+          <button id="view">{localize("color_mixer_step2_view")}</button>
         </div>
 
-        <h3>{localize('color_mixer_step2_title')}</h3>
+        <h3>{localize("color_mixer_step2_title")}</h3>
         <canvas
           id="myCanvas"
           width="400"
@@ -132,11 +133,13 @@ export default function Color() {
             height: "400px",
             cursor: "crosshair",
             background: "black",
+            maxWidth: "80vw",
+            maxHeight: "80vw",
           }}
         ></canvas>
 
-        <h3>{localize('color_mixer_step3_title')}</h3>
-        <div>{localize('color_mixer_step3_description')}</div>
+        <h3>{localize("color_mixer_step3_title")}</h3>
+        <div>{localize("color_mixer_step3_description")}</div>
         <div
           style={{
             display: "flex",
@@ -145,7 +148,7 @@ export default function Color() {
             alignItems: "center",
           }}
         >
-          <div>{localize('color_mixer_step3_current_color')}</div>
+          <div>{localize("color_mixer_step3_current_color")}</div>
           <div
             id="colorIcon"
             style={{

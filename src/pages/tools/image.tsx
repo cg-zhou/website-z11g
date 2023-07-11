@@ -165,7 +165,11 @@ export default function Image() {
     });
   }, []);
 
-  const labelStyle = { minWidth: language === "cn" ? 80 : 140 };
+  const labelStyle = {
+    minWidth: language === "cn" ? 80 : 140,
+    alignSelf: "start",
+  };
+
   return (
     <ToolLayout>
       <Head>
@@ -204,25 +208,29 @@ export default function Image() {
         </label>
         <input type="number" id="height-input" />
       </div>
-      <div className="row" style={{ columnGap: 5 }}>
+      <div className="row">
         <label style={labelStyle}>
           {localize("image_processor_step2_one_key_setup")}
         </label>
-        <button className="ratio-button" data-ratio="1">
-          100%
-        </button>
-        <button className="ratio-button" data-ratio="0.8">
-          80%
-        </button>
-        <button className="ratio-button" data-ratio="0.5">
-          50%
-        </button>
-        <button className="ratio-button" data-ratio="0.25">
-          25%
-        </button>
-        <button className="ratio-button" data-ratio="0.1">
-          10%
-        </button>
+        <div
+          style={{ display: "flex", columnGap: 5, rowGap: 5, flexWrap: "wrap" }}
+        >
+          <button className="ratio-button" data-ratio="1">
+            100%
+          </button>
+          <button className="ratio-button" data-ratio="0.8">
+            80%
+          </button>
+          <button className="ratio-button" data-ratio="0.5">
+            50%
+          </button>
+          <button className="ratio-button" data-ratio="0.25">
+            25%
+          </button>
+          <button className="ratio-button" data-ratio="0.1">
+            10%
+          </button>
+        </div>
       </div>
       <h3>{localize("image_processor_step3_title")}</h3>
       <div style={{ maxWidth: "80vw", maxHeight: "50vh", overflow: "auto" }}>

@@ -38,14 +38,15 @@ html {
 }
 
 .navigation-bar {
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin: 20px 10px 30px 10px;
   font-size: 1rem;
   display: flex;
   flex-direction: row;
   column-gap: 20px;
+  row-gap: 10px;
   justify-content: center;
   color: #ddd;
+  flex-wrap: wrap;
 }
 
 .navigation-bar > a {
@@ -54,6 +55,14 @@ html {
 }
 
 .navigation-bar > a:hover {
+  color: #fff;
+}
+
+.navigation-bar > button {
+  color: #ddd;
+}
+
+.navigation-bar > button:hover {
   color: #fff;
 }
 
@@ -269,15 +278,17 @@ html {
   background: white;
   display: flex;
   justify-content: center;
+  padding: 0 20px;
+
 }
 
 .tool-layout > div {
   max-width: 800px;
-  overflow-x: auto;
-  margin-bottom: 1.4rem;
+  padding-bottom: 1.4rem;
   display: flex;
   flex-direction: column;
   row-gap: 5px;
+  overflow-x: auto;
 }
 
 .tool-layout h3 {
