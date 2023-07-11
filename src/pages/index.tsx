@@ -5,13 +5,21 @@ import duckJpg from "../public/images/duck.jpg";
 
 import Head from "next/head";
 
-import * as React from 'react';
+import React, { useContext } from "react";
+import { LanguageContext } from "@/components/languages/LanguageProvider";
 
 export default function Home() {
+  const { language, localize } = useContext(LanguageContext);
+  const bannerStyle = {
+    maxWidth:
+      language === "cn"
+        ? "calc(var(--logo-diameter) * 1.7)"
+        : "calc(var(--logo-diameter) * 2.67)",
+  };
   return (
     <div>
       <Head>
-        <title>周春光的个人主页</title>
+        <title>{localize("homepage_title")}</title>
       </Head>
       <div className="logo-for-wechat">
         <Image src={duckJpg} alt="duck"></Image>
@@ -31,8 +39,8 @@ export default function Home() {
       </header>
 
       <div className="banner">
-        <div className="banner-text">
-          Hello, I am Chunguang Zhou, full stack developer from LiaoNing, China.
+        <div className="banner-text" style={bannerStyle}>
+          {localize("homepage_banner")}
         </div>
       </div>
     </div>

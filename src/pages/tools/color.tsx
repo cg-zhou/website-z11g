@@ -1,8 +1,11 @@
 import Head from "next/head";
-import { useEffect } from "react";
-import ToolLayout from "../_toolLayout";
+import { useContext, useEffect } from "react";
+import ToolLayout from "../../components/ToolLayout";
+import { LanguageContext } from "@/components/languages/LanguageProvider";
 
 export default function Color() {
+  const { localize } = useContext(LanguageContext);
+
   useEffect(() => {
     let colorInput = document.getElementById("colorInput") as any;
     let colorOutput = document.getElementById("colorOutput");
@@ -105,21 +108,21 @@ export default function Color() {
   return (
     <>
       <Head>
-        <title>颜色工具</title>
+        <title>{localize('color_mixer_page_title')}</title>
       </Head>
       <ToolLayout>
-        <h3>1. 输入参数</h3>
-        <div>每行输入一个颜色，格式为 r, g, b 或 #RRGGBB</div>
+        <h3>{localize('color_mixer_step1_title')}</h3>
+        <div>{localize('color_mixer_step1_description')}</div>
         <textarea
           id="colorInput"
           rows={5}
           cols={20}
         ></textarea>
         <div>
-          <button id="view">查看</button>
+          <button id="view">{localize('color_mixer_step2_view')}</button>
         </div>
 
-        <h3>2. 预览图像</h3>
+        <h3>{localize('color_mixer_step2_title')}</h3>
         <canvas
           id="myCanvas"
           width="400"
@@ -132,8 +135,8 @@ export default function Color() {
           }}
         ></canvas>
 
-        <h3>3. 颜色信息</h3>
-        <div>鼠标悬浮或点击，以查看颜色信息</div>
+        <h3>{localize('color_mixer_step3_title')}</h3>
+        <div>{localize('color_mixer_step3_description')}</div>
         <div
           style={{
             display: "flex",
@@ -142,7 +145,7 @@ export default function Color() {
             alignItems: "center",
           }}
         >
-          <div>当前颜色：</div>
+          <div>{localize('color_mixer_step3_current_color')}</div>
           <div
             id="colorIcon"
             style={{

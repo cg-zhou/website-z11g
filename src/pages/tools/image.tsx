@@ -1,8 +1,11 @@
 import Head from "next/head";
-import { useEffect } from "react";
-import ToolLayout from "../_toolLayout";
+import { useContext, useEffect } from "react";
+import ToolLayout from "../../components/ToolLayout";
+import { LanguageContext } from "@/components/languages/LanguageProvider";
 
 export default function Image() {
+  const { localize, language } = useContext(LanguageContext);
+
   let img: any = null;
 
   useEffect(() => {
@@ -162,37 +165,49 @@ export default function Image() {
     });
   }, []);
 
-  const labelStyle = { minWidth: 80 };
+  const labelStyle = { minWidth: language === "cn" ? 80 : 140 };
   return (
     <ToolLayout>
       <Head>
-        <title>图像工具</title>
+        <title>{localize("image_processor_page_title")}</title>
       </Head>
-      <h3>1. 选择图像文件</h3>
+      <h3>{localize("image_processor_step1_title")}</h3>
       <input type="file" id="image-input" accept="image/*" />
-      <h3>2. 设置参数</h3>
+      <h3>{localize("image_processor_step2_title")}</h3>
       <div className="row">
-        <label style={labelStyle}>灰阶：</label>
+        <label style={labelStyle}>
+          {localize("image_processor_step2_grayscale")}
+        </label>
         <input type="checkbox" id="grayscaleCheckbox" />
       </div>
       <div className="row">
-        <label style={labelStyle}>反色：</label>
+        <label style={labelStyle}>
+          {localize("image_processor_step2_reverse_color")}
+        </label>
         <input type="checkbox" id="invertCheckbox" />
       </div>
       <div className="row">
-        <label style={labelStyle}>保持比例：</label>
+        <label style={labelStyle}>
+          {localize("image_processor_step2_keep_ratio")}
+        </label>
         <input type="checkbox" id="keepRatioCheckbox" />
       </div>
       <div className="row">
-        <label style={labelStyle}>宽度: </label>
+        <label style={labelStyle}>
+          {localize("image_processor_step2_width")}
+        </label>
         <input type="number" id="width-input" />
       </div>
       <div className="row">
-        <label style={labelStyle}>高度: </label>
+        <label style={labelStyle}>
+          {localize("image_processor_step2_height")}
+        </label>
         <input type="number" id="height-input" />
       </div>
       <div className="row" style={{ columnGap: 5 }}>
-        <label style={labelStyle}>一键设置: </label>
+        <label style={labelStyle}>
+          {localize("image_processor_step2_one_key_setup")}
+        </label>
         <button className="ratio-button" data-ratio="1">
           100%
         </button>
@@ -209,14 +224,14 @@ export default function Image() {
           10%
         </button>
       </div>
-      <h3>3. 预览图像</h3>
+      <h3>{localize("image_processor_step3_title")}</h3>
       <div style={{ maxWidth: "80vw", maxHeight: "50vh", overflow: "auto" }}>
         <img id="preview"></img>
       </div>
-      <h3>4. 下载图像</h3>
+      <h3>{localize("image_processor_step4_title")}</h3>
       <div>
         <a id="download-link" href="#">
-          <button>下载</button>
+          <button>{localize("image_processor_step4_download")}</button>
         </a>
       </div>
     </ToolLayout>
