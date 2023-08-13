@@ -69,7 +69,7 @@
     "clipboard_step1_upload": "Upload",
     "clipboard_step1_upload_success": "Upload success, the extraction code is：",
     "clipboard_step2_title": "2. Download file",
-    "clipboard_step2_code_placeholder": "Input the extraction code to download file",
+    "clipboard_step2_code_placeholder": "Input extraction code to download",
     "clipboard_step2_download": "Download"
   }
 }

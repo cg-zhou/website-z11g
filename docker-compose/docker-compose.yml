@@ -6,6 +6,8 @@ services:
     ports:
       - "3000:3000"
     restart: always
+    volumes:
+      - ~/workspace/app_data:/app/app_data
   nginx:
     image: metaphor1990/nginx:latest
     container_name: nginx
@@ -13,5 +15,5 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /etc/ssl:/etc/nginx/ssl:ro
+      - ~/workspace/nginx:/etc/nginx/conf.d
     restart: always
