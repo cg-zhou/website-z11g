@@ -32,6 +32,7 @@
     "clipboard_step1_title": "1. 上传文件",
     "clipboard_step1_upload": "上传",
     "clipboard_step1_upload_success": "上传成功，提取码：",
+    "clipboard_step1_copy": "复制",
     "clipboard_step2_title": "2. 下载文件",
     "clipboard_step2_code_placeholder": "输入提取码，以下载文件",
     "clipboard_step2_download": "下载"
@@ -44,6 +45,7 @@
     "menu_homepage": "Homepage",
     "menu_image": "Image processor",
     "menu_color": "Color mixer",
+    "menu_clipboard": "Clipboard",
     "color_mixer_page_title": "Color mixer",
     "color_mixer_step1_title": "1. Input colors",
     "color_mixer_step1_description": "Enter one color per line in the format r, g, b or #RRGGBB",
@@ -68,6 +70,7 @@
     "clipboard_step1_title": "1. Upload file",
     "clipboard_step1_upload": "Upload",
     "clipboard_step1_upload_success": "Upload success, the extraction code is：",
+    "clipboard_step1_copy": "Copy code",
     "clipboard_step2_title": "2. Download file",
     "clipboard_step2_code_placeholder": "Input extraction code to download",
     "clipboard_step2_download": "Download"

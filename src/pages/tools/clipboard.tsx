@@ -1,10 +1,18 @@
 import Head from "next/head";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import ToolLayout from "../../components/ToolLayout";
 import { LanguageContext } from "@/components/languages/LanguageProvider";
+import { useClipboard } from 'use-clipboard-copy';
 
 export default function File() {
+  const [code, setCode] = useState('');
+
   const { localize } = useContext(LanguageContext);
+  const clipboard = useClipboard();
+
+  const handleCopy = () => {
+    clipboard.copy(code);
+  };
 
   useEffect(() => {
     let files: any = null;
@@ -25,7 +33,8 @@ export default function File() {
         });
         const result = await response.json();
 
-        alert(`${localize("clipboard_step1_upload_success")}${result.code}`);
+        setCode(result.code as string);
+
         console.log("Success:", result);
       } catch (error) {
         console.error("Error:", error);
@@ -59,6 +68,12 @@ export default function File() {
     );
   }, []);
 
+  const codeRowStyle = {
+    display: 'flex',
+    columnGap: '5px',
+    alignItems: 'center'
+  };
+
   return (
     <ToolLayout>
       <Head>
@@ -69,6 +84,12 @@ export default function File() {
       <div>
         <button id="upload">{localize("clipboard_step1_upload")}</button>
       </div>
+      {code &&
+        <div style={codeRowStyle}>
+          <span>{localize("clipboard_step1_upload_success")}</span>
+          <span>{code}</span>
+          <button onClick={handleCopy} id="copy">{localize("clipboard_step1_copy")}</button>
+        </div>}
       <h3>{localize("clipboard_step2_title")}</h3>
       <input type='text' id="download-file-code" placeholder={localize("clipboard_step2_code_placeholder")} />
       <div>
