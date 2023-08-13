@@ -7,6 +7,7 @@
     "menu_homepage": "主页",
     "menu_image": "图像处理",
     "menu_color": "颜色叠加",
+    "menu_clipboard": "剪贴板",
     "color_mixer_page_title": "颜色叠加",
     "color_mixer_step1_title": "1. 输入参数",
     "color_mixer_step1_description": "每行输入一个颜色，格式为 r, g, b 或 #RRGGBB",
@@ -26,7 +27,14 @@
     "image_processor_step2_one_key_setup": "一键设置：",
     "image_processor_step3_title": "3. 预览图像",
     "image_processor_step4_title": "4. 下载图像",
-    "image_processor_step4_download": "下载"
+    "image_processor_step4_download": "下载",
+    "clipboard_page_title": "剪贴板",
+    "clipboard_step1_title": "1. 上传文件",
+    "clipboard_step1_upload": "上传",
+    "clipboard_step1_upload_success": "上传成功，提取码：",
+    "clipboard_step2_title": "2. 下载文件",
+    "clipboard_step2_code_placeholder": "输入提取码，以下载文件",
+    "clipboard_step2_download": "下载"
   },
   "en": {
     "homepage_banner": "Hello, I am Chunguang Zhou, full stack developer from LiaoNing, China.",
@@ -55,6 +63,13 @@
     "image_processor_step2_one_key_setup": "One key setup: ",
     "image_processor_step3_title": "3. Preview",
     "image_processor_step4_title": "4. Download",
-    "image_processor_step4_download": "Download"
+    "image_processor_step4_download": "Download",
+    "clipboard_page_title": "Clipboard",
+    "clipboard_step1_title": "1. Upload file",
+    "clipboard_step1_upload": "Upload",
+    "clipboard_step1_upload_success": "Upload success, the extraction code is：",
+    "clipboard_step2_title": "2. Download file",
+    "clipboard_step2_code_placeholder": "Input the extraction code to download file",
+    "clipboard_step2_download": "Download"
   }
 }
