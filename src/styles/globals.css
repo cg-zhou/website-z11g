@@ -15,12 +15,9 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 html {
@@ -49,20 +46,20 @@ html {
   flex-wrap: wrap;
 }
 
-.navigation-bar > a {
+.navigation-bar>a {
   color: #ddd;
   border-bottom: solid 1px;
 }
 
-.navigation-bar > a:hover {
+.navigation-bar>a:hover {
   color: #fff;
 }
 
-.navigation-bar > button {
+.navigation-bar>button {
   color: #ddd;
 }
 
-.navigation-bar > button:hover {
+.navigation-bar>button:hover {
   color: #fff;
 }
 
@@ -118,7 +115,14 @@ html {
 
 .footer-row {
   color: rgb(206, 206, 206);
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-left: 5rem;
+  margin-right: 5rem;
 }
 
 .footer-link {
@@ -170,8 +174,7 @@ html {
   cursor: default;
   box-shadow: inset 0 0 0 16px rgba(255, 255, 255, 0.6),
     0 1px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 0 0 calc(var(--logo-diameter) * 0.05)
-      rgba(255, 255, 255, 0.6),
+  box-shadow: inset 0 0 0 calc(var(--logo-diameter) * 0.05) rgba(255, 255, 255, 0.6),
     0 1px 2px rgba(0, 0, 0, 0.1);
   -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
@@ -282,7 +285,7 @@ html {
 
 }
 
-.tool-layout > div {
+.tool-layout>div {
   max-width: 800px;
   padding-bottom: 1.4rem;
   display: flex;
@@ -326,6 +329,7 @@ html {
   width: 15px;
   height: 15px;
 }
+
 .tool-layout input[type="checkbox"]:checked {
   accent-color: black;
 }

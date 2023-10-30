@@ -12,6 +12,8 @@ import emailSvg from "../public/images/email.svg";
 import stackoverflowSvg from "../public/images/stackoverflow.svg";
 import githubSvg from "../public/images/github.svg";
 
+import beianPng from "../public/images/beian.png";
+
 function Footer() {
   const { localize } = useContext(LanguageContext);
   return (
@@ -68,17 +70,30 @@ function Footer() {
       </div>
 
       <div className="footer-row">
-        {localize("footer_written_by")}
-        <Link className="footer-link ml-1.5" href="mailto:z_cg@foxmail.com">
-          {localize("footer_cgzhou")}
-        </Link>
+        <span>
+          {localize("footer_written_by")}
+          <Link className="footer-link ml-1.5" href="mailto:z_cg@foxmail.com">
+            {localize("footer_cgzhou")}
+          </Link>
+        </span>
       </div>
+
       <div className="footer-row">
+        <Link
+          href="https://beian.mps.gov.cn/#/query/webSearch?code=21029602000754"
+          target="_blank"
+          className="footer-link">
+          <div className="flex flex-row items-center gap-2">
+            <div>
+              <Image src={beianPng} alt="beian" width={16} height={16} />
+            </div>
+            辽公网安备21029602000754
+          </div>
+        </Link>
         <Link
           href="https://beian.miit.gov.cn/"
           target="_blank"
-          className="footer-link"
-        >
+          className="footer-link">
           辽ICP备2023002125号
         </Link>
       </div>
