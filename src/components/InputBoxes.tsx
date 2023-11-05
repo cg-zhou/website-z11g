@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 
 interface Props {
     text: string;
@@ -6,26 +6,24 @@ interface Props {
 }
 
 const InputBoxes = ({ text, onInputChange }: Props) => {
-    const [values, setValues] = useState<string[]>(['', '', '', '', '', '']);
     const refs = useRef<HTMLInputElement[]>([]);
 
     const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
         const pastedText = event.clipboardData.getData('text').trim().toUpperCase();
-        const newValueArray = [...values];
+        const newValues = getValues();
 
-        for (let i = 0; i < pastedText.length; i++) {
-            newValueArray[i] = pastedText[i];
+        for (let i = 0; i < pastedText.length && i < 6; i++) {
+            newValues[i] = pastedText[i];
         }
-        setValues(newValueArray);
 
-        triggerChangeEvent(newValueArray);
+        triggerChangeEvent(newValues);
 
         event.stopPropagation();
         event.preventDefault();
     }
 
     const handleChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-        const newValues = [...values];
+        const values = getValues();
 
         let newValue = '';
         if (event.target.value.length > 0) {
@@ -36,8 +34,7 @@ const InputBoxes = ({ text, onInputChange }: Props) => {
             }
         }
 
-        newValues[index] = newValue;
-        setValues(newValues);
+        values[index] = newValue;
 
         if (newValue.length === 1 && index < 5) {
             refs.current[index + 1].focus();
@@ -45,21 +42,31 @@ const InputBoxes = ({ text, onInputChange }: Props) => {
             refs.current[index - 1].focus();
         }
 
-        triggerChangeEvent(newValues);
+        triggerChangeEvent(values);
     };
 
     const triggerChangeEvent = (valueArray: string[]) => {
         const newText = valueArray.join('');
-        if (values.join('') != newText) {
+        if (text != newText) {
             onInputChange(newText);
         }
     };
 
+    const getValues = (): string[] => {
+        let values = ['', '', '', '', '', ''];
+        for (let i = 0; i < values.length; i++) {
+            if (i < text.length) {
+                values[i] = text[i];
+            }
+        }
+        return values;
+    };
+
     return (
         <div className='flex flex-row gap-[0.5rem]'>
-            {values.map((value, index) => (
+            {getValues().map((value, index) => (
                 <input
-                    className="w-[2rem] h-[2rem] pl-0 text-center font-bold input-box-item"
+                    className="text-2xl w-[2rem] h-[2rem] pl-0 text-center font-bold input-box-item"
                     key={index}
                     type="text"
                     maxLength={6}

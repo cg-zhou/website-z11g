@@ -345,3 +345,26 @@ html {
 .tool-layout input[type="text"].input-box-item {
   padding-left: 0;
 }
+
+.clipboard-preview-file-info {
+  display: flex;
+  flex-flow: column;
+  gap: 0.5rem;
+}
+
+.clipboard-preview-file-info>div {
+  display: flex;
+  flex-direction: row;
+  gap: 1;
+}
+
+.clipboard-preview-file-info>div>div {
+  min-width: 8rem;
+  max-width: 16rem;
+}
+
+.clipboard-preview-file-info img {
+  border: solid 1px gray;
+  max-width: 20rem;
+  max-height: 20rem;
+}

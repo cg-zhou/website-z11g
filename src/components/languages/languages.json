@@ -36,10 +36,16 @@
     "clipboard_step1_upload_success": "上传成功，提取码：",
     "clipboard_step1_copy": "复制",
     "clipboard_step1_select_file_or_input": "请选择文件或输入文本以上传。",
-    "clipboard_step2_title": "2. 提取",
+    "clipboard_step2_title": "2. 提取码",
     "clipboard_step2_code_placeholder": "输入提取码",
     "clipboard_step2_extract": "提取",
-    "clipboard_step2_download": "下载"
+    "clipboard_step2_download": "下载",
+    "clipboard_step2_copied": "已复制",
+    "clipboard_step3_title": "3. 信息",
+    "clipboard_step3_name": "名称: ",
+    "clipboard_step3_size": "大小: ",
+    "clipboard_step3_upload_time": "上传时间: ",
+    "clipboard_step3_copy_text": "复制文本"
   },
   "en": {
     "homepage_banner": "Hello, I am Chunguang Zhou, full stack developer from LiaoNing, China.",
@@ -78,9 +84,15 @@
     "clipboard_step1_upload_success": "Upload success, the extraction code is: ",
     "clipboard_step1_copy": "Copy",
     "clipboard_step1_select_file_or_input": "Please select a file or input text to upload.",
-    "clipboard_step2_title": "2. Extract",
+    "clipboard_step2_title": "2. Extraction Code",
     "clipboard_step2_code_placeholder": "Input extraction code",
     "clipboard_step2_extract": "Extract",
-    "clipboard_step2_download": "Download"
+    "clipboard_step2_download": "Download",
+    "clipboard_step2_copied": "Copied",
+    "clipboard_step3_title": "3. Information",
+    "clipboard_step3_name": "Name: ",
+    "clipboard_step3_size": "Size: ",
+    "clipboard_step3_upload_time": "Upload time: ",
+    "clipboard_step3_copy_text": "Copy text"
   }
 }

@@ -23,22 +23,19 @@ export default function File() {
   const selectFileInputRef = useRef<HTMLInputElement>(null);
 
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [code, setCode] = useState('');
   const [uploadingInfo, setUploadingInfo] = useState('');
   const [inputText, setInputText] = useState('');
-  const [inputFileCode, setInputFileCode] = useState('');
+  const [fileCode, setInputFileCode] = useState('');
   const [extractResult, setExtractResult] = useState<ExtractResult | null>(null);
   const [previewText, setPreviewText] = useState('');
 
   const { localize } = useContext(LanguageContext);
   const clipboard = useClipboard();
 
-  const handleCopy = () => {
-    clipboard.copy(code);
-  };
-
-  const handleCopyPreviewText = () => {
-    clipboard.copy(previewText);
+  const handleCopy = (text: string) => {
+    clipboard.copy(text);
+    const displayText = text.length > 10 ? text.substring(0, 10) : text;
+    alert(localize("clipboard_step2_copied") + ': ' + displayText);
   };
 
   const onUploadClicked = async () => {
@@ -55,7 +52,7 @@ export default function File() {
       return;
     }
 
-    setCode("");
+    setInputFileCode("");
     setUploadingInfo("");
 
     try {
@@ -68,7 +65,8 @@ export default function File() {
       }
 
       const response = await axios.post("/api/clipboard", formData, config);
-      setCode(response.data.code as string);
+      const uploadedCode = response.data.code as string;
+
       setUploadingInfo("");
       console.log("Success:", response);
 
@@ -77,6 +75,8 @@ export default function File() {
       }
       setInputText('');
 
+      setInputFileCode(uploadedCode);
+      preview(uploadedCode);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -118,7 +118,7 @@ export default function File() {
   }
 
   const download = () => {
-    const url = `/api/clipboard?code=${inputFileCode}`;
+    const url = `/api/clipboard?code=${fileCode}`;
     window.open(url, '_blank');
   }
 
@@ -126,23 +126,41 @@ export default function File() {
     setInputText(event.target.value);
   };
 
-  const onInputFileCodeChanged = async (text: string) => {
+  const onFileCodeChanged = async (text: string) => {
     console.log(text);
 
     const inputCode = text.trim().toUpperCase();
-    await setInputFileCode(inputCode);
-    if (inputCode.length == 6) {
-      extract(inputCode);
+    setInputFileCode(inputCode);
+
+    preview(inputCode);
+  };
+
+  const preview = (code: string) => {
+    if (code.length == 6) {
+      extract(code);
     } else {
       setExtractResult(null);
     }
-  };
+  }
+
+  const getDisplaySize = (size: number) => {
+    if (size < 1024) {
+      return size + ' B';
+    } else if (size < 1024 * 1024) {
+      return (size / 1024).toFixed(1) + ' KB';
+    } else if (size < 1024 * 1024 * 1024) {
+      return (size / 1024 / 1024).toFixed(1) + ' MB';
+    }
+    return (size / 1024 / 1024 / 1024).toFixed(1) + ' GB';
+  }
 
   const isImage = extractResult?.isSuccess
     && extractResult.fileInfo.mimetype.toLowerCase().startsWith('image/');
   const isText = extractResult?.isSuccess
     && extractResult.fileInfo.mimetype.toLowerCase().startsWith('text/');
   const hasError = extractResult && !extractResult.isSuccess;
+  const isSuccess = extractResult && extractResult.isSuccess;
+
   return (
     <ToolLayout>
       <Head>
@@ -159,40 +177,74 @@ export default function File() {
         uploadingInfo.length > 0 &&
         <div>{`${uploadingInfo}`}</div>
       }
+
+      <h3>{localize("clipboard_step2_title")}</h3>
+      <InputBoxes text={fileCode} onInputChange={onFileCodeChanged} />
+
+      {/* copy extraction code */}
       {
-        code &&
+        fileCode &&
         <div>
-          <div>{localize("clipboard_step1_upload_success")}</div>
-          <div className="flex flex-row gap-3 items-center">
-            <div className="font-bold my-2 text-2xl">{code}</div>
-            <button onClick={handleCopy}>{localize("clipboard_step1_copy")}</button>
+          <button onClick={() => handleCopy(fileCode)}>{localize("clipboard_step1_copy")}</button>
+        </div>
+      }
+      {
+        hasError && <div>{`Failed to extract ${fileCode}`}</div>
+      }
+
+      {
+        isSuccess &&
+        <div>
+          <h3>{localize("clipboard_step3_title")}</h3>
+
+          <div className="clipboard-preview-file-info my-2">
+            {/* upload info */}
+            <div>
+              <div>{localize("clipboard_step3_name")}</div>
+              <div>
+                {`${extractResult.fileInfo.name}`}
+              </div>
+            </div>
+            <div>
+              <div>{localize("clipboard_step3_size")}</div>
+              <div>
+                {`${getDisplaySize(extractResult.fileInfo.size)}`}
+              </div>
+            </div>
+            <div className="flex flex-row">
+              <div style={{ minWidth: "8rem" }}>{localize("clipboard_step3_upload_time")}</div>
+              <div>
+                {`${new Date(extractResult.fileInfo.uploadDate).toLocaleString()}`}
+              </div>
+            </div>
+
+            {
+              // preview image
+              isImage
+              && <div style={{ maxWidth: "80vw", maxHeight: "50vh", overflow: "auto" }}>
+                <img alt={extractResult.fileInfo.name} src={extractResult.fileInfo.path}></img>
+              </div>
+            }
+
+            {
+              // preview text
+              isText
+              && <textarea style={{ maxWidth: "80vw", overflow: "auto" }} readOnly={true} value={previewText} rows={6} />
+            }
+
+            {
+              // copy or download
+              <div className="flex flex-row gap-3 items-center">
+                <button onClick={download}>{localize("clipboard_step2_download")}</button>
+                {
+                  isText
+                  && <button onClick={() => handleCopy(previewText)}>{localize("clipboard_step3_copy_text")}</button>
+                }
+              </div>
+            }
           </div>
         </div>
       }
-      <h3>{localize("clipboard_step2_title")}</h3>
-      <InputBoxes text='' onInputChange={onInputFileCodeChanged} />
-      {/* <input type='text' onChange={onInputFileCodeChanged} placeholder={localize("clipboard_step2_code_placeholder")} /> */}
-      {
-        isImage
-        && <div style={{ maxWidth: "80vw", maxHeight: "50vh", overflow: "auto" }}>
-          <img alt={extractResult.fileInfo.name} src={extractResult.fileInfo.path}></img>
-        </div>
-      }
-      {
-        isText
-        && <textarea style={{ maxWidth: "80vw", maxHeight: "50vh", overflow: "auto" }} readOnly={true} value={previewText} />
-      }
-      {
-        hasError
-        && <div>{`Failed to extract ${inputFileCode}`}</div>
-      }
-      <div className="flex flex-row gap-3 items-center">
-        {
-          isText
-          && <button onClick={handleCopyPreviewText}>{localize("clipboard_step1_copy")}</button>
-        }
-        <button onClick={download}>{localize("clipboard_step2_download")}</button>
-      </div>
     </ToolLayout>
   );
 }
