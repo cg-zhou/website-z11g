@@ -96,10 +96,9 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: calc(300px * 0.1);
-  margin-top: calc(var(--logo-diameter) * 0.1);
-  margin-bottom: calc(300px * 0.1);
-  margin-bottom: calc(var(--logo-diameter) * 0.1);
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .footer .circle-img {
@@ -115,7 +114,6 @@ html {
 
 .footer-row {
   color: rgb(206, 206, 206);
-  margin-bottom: 1rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -273,8 +271,6 @@ html {
 .footer-996-row {
   display: flex;
   column-gap: 12px;
-  margin-top: 24px;
-  margin-bottom: 12px;
 }
 
 .tool-layout {
@@ -344,4 +340,8 @@ html {
 .tool-layout button:hover {
   color: #fff;
   background-color: #222;
+}
+
+.tool-layout input[type="text"].input-box-item {
+  padding-left: 0;
 }
