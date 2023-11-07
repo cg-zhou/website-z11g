@@ -18,7 +18,7 @@ type ClipboardIndex = ClipboardIndexItem[];
 
 export class ClipboardIndexUtils {
     static generateCode(): string {
-        return Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase();
+        return Math.floor(Math.random() * 999999).toString(10).padStart(6, '0').toUpperCase();
     }
 
     static load(): ClipboardIndex {

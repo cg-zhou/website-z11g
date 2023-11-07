@@ -4,7 +4,9 @@ import ToolLayout from "../../components/ToolLayout";
 import { LanguageContext } from "@/components/languages/LanguageProvider";
 import { useClipboard } from 'use-clipboard-copy';
 import axios, { AxiosRequestConfig } from "axios";
-import InputBoxes from "@/components/InputBoxes";
+import dynamic from 'next/dynamic';
+
+const ReactCodeInput = dynamic(import('react-code-input'));
 
 type ExtractResult = {
   isSuccess: boolean;
@@ -19,13 +21,13 @@ type PreviewFile = {
   uploadDate: Date;
 }
 
-export default function File() {
+export default function Clipboard(props: any) {
   const selectFileInputRef = useRef<HTMLInputElement>(null);
 
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadingInfo, setUploadingInfo] = useState('');
   const [inputText, setInputText] = useState('');
-  const [fileCode, setInputFileCode] = useState('');
+  const [fileCode, setFileCode] = useState('');
   const [extractResult, setExtractResult] = useState<ExtractResult | null>(null);
   const [previewText, setPreviewText] = useState('');
 
@@ -52,7 +54,7 @@ export default function File() {
       return;
     }
 
-    setInputFileCode("");
+    setFileCode("");
     setUploadingInfo("");
 
     try {
@@ -75,7 +77,7 @@ export default function File() {
       }
       setInputText('');
 
-      setInputFileCode(uploadedCode);
+      setFileCode(uploadedCode);
       preview(uploadedCode);
     } catch (error) {
       console.error("Error:", error);
@@ -130,7 +132,7 @@ export default function File() {
     console.log(text);
 
     const inputCode = text.trim().toUpperCase();
-    setInputFileCode(inputCode);
+    setFileCode(inputCode);
 
     preview(inputCode);
   };
@@ -179,7 +181,7 @@ export default function File() {
       }
 
       <h3>{localize("clipboard_step2_title")}</h3>
-      <InputBoxes text={fileCode} onInputChange={onFileCodeChanged} />
+      <ReactCodeInput key={fileCode} value={fileCode} onChange={onFileCodeChanged} type='number' fields={6} {...props} />
 
       {/* copy extraction code */}
       {
