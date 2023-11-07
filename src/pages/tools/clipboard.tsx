@@ -28,6 +28,7 @@ export default function Clipboard(props: any) {
   const [uploadingInfo, setUploadingInfo] = useState('');
   const [inputText, setInputText] = useState('');
   const [fileCode, setFileCode] = useState('');
+  const [fileCodeInputKey, setFileCodeInputKey] = useState('');
   const [extractResult, setExtractResult] = useState<ExtractResult | null>(null);
   const [previewText, setPreviewText] = useState('');
 
@@ -78,6 +79,7 @@ export default function Clipboard(props: any) {
       setInputText('');
 
       setFileCode(uploadedCode);
+      setFileCodeInputKey('key' + uploadedCode);
       preview(uploadedCode);
     } catch (error) {
       console.error("Error:", error);
@@ -181,7 +183,7 @@ export default function Clipboard(props: any) {
       }
 
       <h3>{localize("clipboard_step2_title")}</h3>
-      <ReactCodeInput key={fileCode} value={fileCode} onChange={onFileCodeChanged} type='number' fields={6} {...props} />
+      <ReactCodeInput key={fileCodeInputKey} value={fileCode} onChange={onFileCodeChanged} type='number' fields={6} {...props} />
 
       {/* copy extraction code */}
       {
