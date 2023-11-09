@@ -25,6 +25,10 @@ export default function Image() {
     invertCheckbox.checked = false;
 
     widthInput.addEventListener("input", (event: any) => {
+      if (!img) {
+        return;
+      }
+
       if (keepRatioCheckbox.checked) {
         heightInput.value = Math.floor(
           (event.target.value / img.naturalWidth) * img.naturalHeight
@@ -34,6 +38,10 @@ export default function Image() {
     });
 
     heightInput.addEventListener("input", (event: any) => {
+      if (!img) {
+        return;
+      }
+
       if (keepRatioCheckbox.checked) {
         widthInput.value = Math.floor(
           (event.target.value / img.naturalHeight) * img.naturalWidth
@@ -53,6 +61,9 @@ export default function Image() {
     let ratioButtons = document.querySelectorAll(".ratio-button");
     for (let button of ratioButtons as any) {
       button.addEventListener("click", function () {
+        if (!img) {
+          return;
+        }
         let ratio = parseFloat(button.getAttribute("data-ratio"));
         widthInput.value = Math.floor(ratio * img.naturalWidth);
         heightInput.value = Math.floor(ratio * img.naturalHeight);
@@ -94,6 +105,10 @@ export default function Image() {
     }
 
     function refresh(width: any, height: any) {
+      if (!img) {
+        return;
+      }
+
       if (width < 1 || width > 100000 || height < 1 || height > 100000) {
         console.warn("invalid width / height value.");
       }
