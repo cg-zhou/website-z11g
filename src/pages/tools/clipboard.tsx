@@ -41,8 +41,13 @@ export default function Clipboard(props: any) {
     alert(localize("clipboard_step2_copied") + ': ' + displayText);
   };
 
-  const onUploadClicked = async () => {
+  const refreshFileCodeInput = (fileCode: string) => {
+    setFileCode(fileCode);
+    setFileCodeInputKey(Math.random().toString());
+    refreshPreview(fileCode);
+  };
 
+  const onUploadClicked = async () => {
     let formData = new FormData();
     if (selectedFiles.length > 0) {
       await buildFilesForm(formData);
@@ -78,9 +83,7 @@ export default function Clipboard(props: any) {
       }
       setInputText('');
 
-      setFileCode(uploadedCode);
-      setFileCodeInputKey('key' + uploadedCode);
-      preview(uploadedCode);
+      refreshFileCodeInput(uploadedCode);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -136,10 +139,10 @@ export default function Clipboard(props: any) {
     const inputCode = text.trim().toUpperCase();
     setFileCode(inputCode);
 
-    preview(inputCode);
+    refreshPreview(inputCode);
   };
 
-  const preview = (code: string) => {
+  const refreshPreview = (code: string) => {
     if (code.length == 6) {
       extract(code);
     } else {
@@ -188,8 +191,9 @@ export default function Clipboard(props: any) {
       {/* copy extraction code */}
       {
         fileCode &&
-        <div>
+        <div className="flex gap-4">
           <button onClick={() => handleCopy(fileCode)}>{localize("clipboard_step1_copy")}</button>
+          <button onClick={() => refreshFileCodeInput('')}>{localize("clipboard_step1_clear")}</button>
         </div>
       }
       {
@@ -226,7 +230,7 @@ export default function Clipboard(props: any) {
               // preview image
               isImage
               && <div style={{ maxWidth: "80vw", maxHeight: "50vh", overflow: "auto" }}>
-                <img alt={extractResult.fileInfo.name} src={extractResult.fileInfo.path}></img>
+                <img alt={extractResult.fileInfo.name} src={extractResult.fileInfo.path} />
               </div>
             }
 

@@ -383,3 +383,7 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.react-code-input input {
+  font-family: "Microsoft YaHei" !important;
+}
