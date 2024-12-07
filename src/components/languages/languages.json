@@ -46,7 +46,23 @@
     "clipboard_step3_name": "名称: ",
     "clipboard_step3_size": "大小: ",
     "clipboard_step3_upload_time": "上传时间: ",
-    "clipboard_step3_copy_text": "复制文本"
+    "clipboard_step3_expiry_duration": "有效时长: ",
+    "clipboard_step3_expiry_time": "过期时间: ",
+    "clipboard_step3_expiry_2hours": "2小时",
+    "clipboard_step3_expiry_1day": "1天",
+    "clipboard_step3_expiry_1week": "1周",
+    "clipboard_step3_copy_text": "复制文本",
+    "clipboard_step1_expiry": "过期时间：",
+    "clipboard_step1_expiry_2hours": "2小时",
+    "clipboard_step1_expiry_1day": "1天",
+    "clipboard_step1_expiry_1week": "1周",
+    "clipboard_step1_expired": "该文件已于 {time} 过期，无法提取。",
+    "clipboard_step1_extract_failed": "提取失败",
+    "clipboard_step1_expiry_10s": "10秒",
+    "message_dialog_title_error": "错误",
+    "message_dialog_title_success": "成功",
+    "message_dialog_title_info": "提示",
+    "message_dialog_confirm": "确定"
   },
   "en": {
     "homepage_banner": "Hello, I am Chunguang Zhou, full stack developer from LiaoNing, China.",
@@ -95,6 +111,22 @@
     "clipboard_step3_name": "Name: ",
     "clipboard_step3_size": "Size: ",
     "clipboard_step3_upload_time": "Upload time: ",
-    "clipboard_step3_copy_text": "Copy text"
+    "clipboard_step3_expiry_duration": "Duration: ",
+    "clipboard_step3_expiry_time": "Expires at: ",
+    "clipboard_step3_expiry_2hours": "2 hours",
+    "clipboard_step3_expiry_1day": "1 day",
+    "clipboard_step3_expiry_1week": "1 week",
+    "clipboard_step3_copy_text": "Copy text",
+    "clipboard_step1_expiry": "Expiry time:",
+    "clipboard_step1_expiry_2hours": "2 hours",
+    "clipboard_step1_expiry_1day": "1 day",
+    "clipboard_step1_expiry_1week": "1 week",
+    "clipboard_step1_expired": "This file expired at {time} and cannot be retrieved.",
+    "clipboard_step1_extract_failed": "Extraction failed",
+    "clipboard_step1_expiry_10s": "10 seconds",
+    "message_dialog_title_error": "Error",
+    "message_dialog_title_success": "Success",
+    "message_dialog_title_info": "Information",
+    "message_dialog_confirm": "OK"
   }
 }

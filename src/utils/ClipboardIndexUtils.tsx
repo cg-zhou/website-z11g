@@ -7,6 +7,7 @@ type FileItem = {
     mimetype: string;
     uploadDate: Date;
     lastModifiedDate: Date;
+    expiryDate: Date;
 }
 
 type ClipboardIndexItem = {
@@ -54,5 +55,10 @@ export class ClipboardIndexUtils {
             files: [file]
         });
         ClipboardIndexUtils.save(clipboardIndex);
+    }
+
+    static isExpired(fileItem: FileItem): boolean {
+        const now = new Date();
+        return now > new Date(fileItem.expiryDate);
     }
 }
