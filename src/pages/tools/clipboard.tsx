@@ -4,9 +4,7 @@ import ToolLayout from "../../components/ToolLayout";
 import { LanguageContext } from "@/components/languages/LanguageProvider";
 import { useClipboard } from 'use-clipboard-copy';
 import axios, { AxiosRequestConfig } from "axios";
-import dynamic from 'next/dynamic';
-
-const ReactCodeInput = dynamic(import('react-code-input'));
+import { CodeInput } from '@/components/inputs/CodeInput';
 
 type ExtractResult = {
   isSuccess: boolean;
@@ -177,7 +175,7 @@ export default function Clipboard(props: any) {
       <input ref={selectFileInputRef} onChange={onSelectedFilesChange} type="file" />
       <div className="font-bold">{localize("clipboard_step1_or")}</div>
       <textarea rows={3} cols={20} value={inputText} onChange={inputTextChange} style={{ maxWidth: "80vw" }} />
-      <div>
+      <div className="mt-2">
         <button onClick={onUploadClicked} >{localize("clipboard_step1_upload")}</button>
       </div>
       {
@@ -186,12 +184,12 @@ export default function Clipboard(props: any) {
       }
 
       <h3>{localize("clipboard_step2_title")}</h3>
-      <ReactCodeInput key={fileCodeInputKey} value={fileCode} onChange={onFileCodeChanged} type='number' fields={6} {...props} />
+      <CodeInput value={fileCode} onChange={onFileCodeChanged} fields={6} />
 
       {/* copy extraction code */}
       {
         fileCode &&
-        <div className="flex gap-4">
+        <div className="flex gap-4 mt-2">
           <button onClick={() => handleCopy(fileCode)}>{localize("clipboard_step1_copy")}</button>
           <button onClick={() => refreshFileCodeInput('')}>{localize("clipboard_step1_clear")}</button>
         </div>
