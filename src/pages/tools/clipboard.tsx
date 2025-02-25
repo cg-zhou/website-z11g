@@ -228,28 +228,28 @@ export default function Clipboard(props: any) {
   };
 
   useEffect(() => {
-    if (extractResult?.isSuccess) {
-      // 立即更新一次
-      setRemainingTime(getRemainingTime(extractResult.fileInfo.expiryDate));
-
-      // 计算到下一秒的延迟
-      const now = new Date();
-      const delay = 1000 - now.getMilliseconds();
-
-      // 首次延迟到下一秒的整数时间点
-      const initialTimeout = setTimeout(() => {
-        setRemainingTime(getRemainingTime(extractResult.fileInfo.expiryDate));
-        
-        // 然后每秒更新一次
-        const timer = setInterval(() => {
-          setRemainingTime(getRemainingTime(extractResult.fileInfo.expiryDate));
-        }, 1000);
-
-        return () => clearInterval(timer);
-      }, delay);
-
-      return () => clearTimeout(initialTimeout);
+    if (!extractResult?.isSuccess) {
+      return;
     }
+  
+    // 立即更新一次
+    setRemainingTime(getRemainingTime(extractResult.fileInfo.expiryDate));
+  
+    // 创建定时器，每秒更新一次
+    const timer = setInterval(() => {
+      const remaining = getRemainingTime(extractResult.fileInfo.expiryDate);
+      setRemainingTime(remaining);
+      
+      // 如果已过期，清除定时器
+      if (remaining === "0:00:00") {
+        clearInterval(timer);
+      }
+    }, 1000);
+  
+    // 清理函数
+    return () => {
+      clearInterval(timer);
+    };
   }, [extractResult]);
 
   // 修改格式化错误信息的函数

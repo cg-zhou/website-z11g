@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  nextjs:
+    image: crpi-2u74e06dhxru0zxb.cn-beijing.personal.cr.aliyuncs.com/cgzhou/website-z11g:latest
+    container_name: nextjs
+    ports:
+      - "3000:3000"
+    restart: always
+    volumes:
+      - ~/workspace/app_data:/app/app_data
+    networks:
+      - app_network
+
+  npm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
+    restart: always
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ~/workspace/nginx-proxy-manager/data:/data
+      - ~/workspace/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
