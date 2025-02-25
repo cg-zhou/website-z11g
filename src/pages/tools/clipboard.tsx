@@ -4,13 +4,13 @@ import ToolLayout from "../../components/ToolLayout";
 import { LanguageContext } from "@/components/languages/LanguageProvider";
 import { useClipboard } from 'use-clipboard-copy';
 import axios, { AxiosRequestConfig } from "axios";
-import dynamic from 'next/dynamic';
-
-const ReactCodeInput = dynamic(import('react-code-input'));
+import { CodeInput } from '@/components/inputs/CodeInput';
+import { MessageDialog } from '@/components/common/MessageDialog';
 
 type ExtractResult = {
   isSuccess: boolean;
   fileInfo: PreviewFile
+  errorMessage?: string;
 }
 
 type PreviewFile = {
@@ -19,6 +19,7 @@ type PreviewFile = {
   size: number;
   mimetype: string;
   uploadDate: Date;
+  expiryDate: Date;
 }
 
 export default function Clipboard(props: any) {
@@ -31,14 +32,26 @@ export default function Clipboard(props: any) {
   const [fileCodeInputKey, setFileCodeInputKey] = useState('');
   const [extractResult, setExtractResult] = useState<ExtractResult | null>(null);
   const [previewText, setPreviewText] = useState('');
+  const [expiryTime, setExpiryTime] = useState<'2hours' | '1day' | '1week'>('2hours');
+  const [remainingTime, setRemainingTime] = useState<string>('');
+  const [showError, setShowError] = useState(false);
+  const [showMessage, setShowMessage] = useState<{show: boolean, message: string, type: 'error' | 'success'}>({
+    show: false,
+    message: '',
+    type: 'error'
+  });
 
   const { localize } = useContext(LanguageContext);
   const clipboard = useClipboard();
 
   const handleCopy = (text: string) => {
     clipboard.copy(text);
-    const displayText = text.length > 10 ? text.substring(0, 10) : text;
-    alert(localize("clipboard_step2_copied") + ': ' + displayText);
+    const displayText = text.length > 30 ? text.substring(0, 30) + '...' : text;
+    setShowMessage({
+      show: true,
+      message: localize("clipboard_step2_copied") + ': ' + displayText,
+      type: 'success'
+    });
   };
 
   const refreshFileCodeInput = (fileCode: string) => {
@@ -92,10 +105,12 @@ export default function Clipboard(props: any) {
   const buildTextForm = async (formData: FormData) => {
     formData.append("uploadType", "file");
     formData.append("userInputText", inputText);
+    formData.append("expiryTime", expiryTime);
   };
 
   const buildFilesForm = async (formData: FormData) => {
     formData.append("uploadType", "text");
+    formData.append("expiryTime", expiryTime);
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
       formData.append(`file_${i}`, file);
@@ -110,17 +125,33 @@ export default function Clipboard(props: any) {
 
   const extract = async (inputCode: string) => {
     const url = `/api/clipboard?code=${inputCode}&onlyGetFileInfo=true`;
-    const response = await axios.get(url);
-    console.log(response.data);
-    setExtractResult(response.data);
+    try {
+      const response = await axios.get(url);
+      console.log(response.data);
+      setExtractResult(response.data);
+      setShowError(response.data.isSuccess === false);
 
-    var extractResult = response.data as ExtractResult;
-    if (extractResult.isSuccess) {
-      if (extractResult.fileInfo.mimetype.toLowerCase().startsWith('text/')) {
-        const url = `/api/clipboard?code=${inputCode}`;
-        const response = await axios.get(url);
-        setPreviewText(`${response.data}`);
+      if (response.data.isSuccess && 
+          response.data.fileInfo.mimetype.toLowerCase().startsWith('text/')) {
+        const textUrl = `/api/clipboard?code=${inputCode}`;
+        const textResponse = await axios.get(textUrl);
+        setPreviewText(`${textResponse.data}`);
       }
+    } catch (error) {
+      console.error(error);
+      setExtractResult({
+        isSuccess: false,
+        errorMessage: 'clipboard_step1_extract_failed',
+        fileInfo: {
+          name: '',
+          path: '',
+          size: 0,
+          mimetype: '',
+          uploadDate: new Date(),
+          expiryDate: new Date()
+        }
+      });
+      setShowError(true);
     }
   }
 
@@ -168,6 +199,74 @@ export default function Clipboard(props: any) {
   const hasError = extractResult && !extractResult.isSuccess;
   const isSuccess = extractResult && extractResult.isSuccess;
 
+  const getExpiryDate = () => {
+    const now = new Date();
+    switch (expiryTime) {
+      case '2hours':
+        return new Date(now.getTime() + 2 * 60 * 60 * 1000);
+      case '1day':
+        return new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      case '1week':
+        return new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+      default:
+        return new Date(now.getTime() + 2 * 60 * 60 * 1000);
+    }
+  };
+
+  const getRemainingTime = (expiryDate: Date) => {
+    const now = new Date();
+    const expiry = new Date(expiryDate);
+    const diff = expiry.getTime() - now.getTime();
+    
+    if (diff <= 0) return "0:00:00";
+    
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  useEffect(() => {
+    if (extractResult?.isSuccess) {
+      // 立即更新一次
+      setRemainingTime(getRemainingTime(extractResult.fileInfo.expiryDate));
+
+      // 计算到下一秒的延迟
+      const now = new Date();
+      const delay = 1000 - now.getMilliseconds();
+
+      // 首次延迟到下一秒的整数时间点
+      const initialTimeout = setTimeout(() => {
+        setRemainingTime(getRemainingTime(extractResult.fileInfo.expiryDate));
+        
+        // 然后每秒更新一次
+        const timer = setInterval(() => {
+          setRemainingTime(getRemainingTime(extractResult.fileInfo.expiryDate));
+        }, 1000);
+
+        return () => clearInterval(timer);
+      }, delay);
+
+      return () => clearTimeout(initialTimeout);
+    }
+  }, [extractResult]);
+
+  // 修改格式化错误信息的函数
+  const formatErrorMessage = (errorMessage: string, fileInfo?: any) => {
+    if (errorMessage === 'clipboard_step1_expired' && fileInfo?.expiryDate) {
+      return localize(errorMessage).replace(
+        '{time}',
+        new Date(fileInfo.expiryDate).toLocaleString()
+      );
+    }
+    // 如果是提取失败，直接返回本地化的消息，不需要替换参数
+    if (errorMessage === 'clipboard_step1_extract_failed') {
+      return localize(errorMessage).replace('{reason}', '');
+    }
+    return localize(errorMessage);
+  };
+
   return (
     <ToolLayout>
       <Head>
@@ -176,9 +275,44 @@ export default function Clipboard(props: any) {
       <h3>{localize("clipboard_step1_title")}</h3>
       <input ref={selectFileInputRef} onChange={onSelectedFilesChange} type="file" />
       <div className="font-bold">{localize("clipboard_step1_or")}</div>
-      <textarea rows={3} cols={20} value={inputText} onChange={inputTextChange} style={{ maxWidth: "80vw" }} />
-      <div>
-        <button onClick={onUploadClicked} >{localize("clipboard_step1_upload")}</button>
+      <textarea rows={3} cols={20} value={inputText} onChange={inputTextChange} style={{ maxWidth: "50vw" }} />
+      <div className="flex flex-row mt-2">
+        <div style={{ minWidth: "7rem" }}>{localize("clipboard_step1_expiry")}</div>
+        <div className="flex gap-4">
+          <label className="flex items-center">
+            <input
+              type="radio"
+              value="2hours"
+              checked={expiryTime === '2hours'}
+              onChange={(e) => setExpiryTime(e.target.value as any)}
+              className="mr-2"
+            />
+            {localize("clipboard_step1_expiry_2hours")}
+          </label>
+          <label className="flex items-center">
+            <input
+              type="radio"
+              value="1day"
+              checked={expiryTime === '1day'}
+              onChange={(e) => setExpiryTime(e.target.value as any)}
+              className="mr-2"
+            />
+            {localize("clipboard_step1_expiry_1day")}
+          </label>
+          <label className="flex items-center">
+            <input
+              type="radio"
+              value="1week"
+              checked={expiryTime === '1week'}
+              onChange={(e) => setExpiryTime(e.target.value as any)}
+              className="mr-2"
+            />
+            {localize("clipboard_step1_expiry_1week")}
+          </label>
+        </div>
+      </div>
+      <div className="mt-2">
+        <button onClick={onUploadClicked}>{localize("clipboard_step1_upload")}</button>
       </div>
       {
         uploadingInfo.length > 0 &&
@@ -186,19 +320,34 @@ export default function Clipboard(props: any) {
       }
 
       <h3>{localize("clipboard_step2_title")}</h3>
-      <ReactCodeInput key={fileCodeInputKey} value={fileCode} onChange={onFileCodeChanged} type='number' fields={6} {...props} />
+      <CodeInput value={fileCode} onChange={onFileCodeChanged} fields={6} />
 
       {/* copy extraction code */}
       {
         fileCode &&
-        <div className="flex gap-4">
+        <div className="flex gap-4 mt-2">
           <button onClick={() => handleCopy(fileCode)}>{localize("clipboard_step1_copy")}</button>
           <button onClick={() => refreshFileCodeInput('')}>{localize("clipboard_step1_clear")}</button>
         </div>
       }
-      {
-        hasError && <div>{`Failed to extract ${fileCode}`}</div>
-      }
+      {showMessage.show && (
+        <MessageDialog
+          message={showMessage.message}
+          type={showMessage.type}
+          onClose={() => setShowMessage({...showMessage, show: false})}
+        />
+      )}
+
+      {hasError && showError && (
+        <MessageDialog
+          message={formatErrorMessage(
+            extractResult.errorMessage || 'clipboard_step1_extract_failed',
+            extractResult.fileInfo
+          )}
+          type="error"
+          onClose={() => setShowError(false)}
+        />
+      )}
 
       {
         isSuccess &&
@@ -220,37 +369,49 @@ export default function Clipboard(props: any) {
               </div>
             </div>
             <div className="flex flex-row">
-              <div style={{ minWidth: "8rem" }}>{localize("clipboard_step3_upload_time")}</div>
+              <div>{localize("clipboard_step3_upload_time")}</div>
               <div>
                 {`${new Date(extractResult.fileInfo.uploadDate).toLocaleString()}`}
               </div>
             </div>
-
-            {
-              // preview image
-              isImage
-              && <div style={{ maxWidth: "80vw", maxHeight: "50vh", overflow: "auto" }}>
-                <img alt={extractResult.fileInfo.name} src={extractResult.fileInfo.path} />
+            <div className="flex flex-row">
+              <div>{localize("clipboard_step3_expiry_duration")}</div>
+              <div>
+                {remainingTime}
               </div>
-            }
-
-            {
-              // preview text
-              isText
-              && <textarea style={{ maxWidth: "80vw", overflow: "auto" }} readOnly={true} value={previewText} rows={6} />
-            }
-
-            {
-              // copy or download
-              <div className="flex flex-row gap-3 items-center">
-                <button onClick={download}>{localize("clipboard_step2_download")}</button>
-                {
-                  isText
-                  && <button onClick={() => handleCopy(previewText)}>{localize("clipboard_step3_copy_text")}</button>
-                }
+            </div>
+            <div className="flex flex-row">
+              <div>{localize("clipboard_step3_expiry_time")}</div>
+              <div>
+                {`${new Date(extractResult.fileInfo.expiryDate).toLocaleString()}`}
               </div>
-            }
+            </div>
           </div>
+
+          {
+            // preview image
+            isImage
+            && <div style={{ maxWidth: "20rem", maxHeight: "20rem", overflow: "auto" }} className="mb-4">
+              <img alt={extractResult.fileInfo.name} src={extractResult.fileInfo.path} />
+            </div>
+          }
+
+          {
+            // preview text
+            isText
+            && <textarea style={{ maxWidth: "50vw", overflow: "auto" }} className="mb-4" readOnly={true} value={previewText} rows={6} />
+          }
+
+          {
+            // copy or download
+            <div className="flex flex-row gap-3 items-center">
+              <button onClick={download}>{localize("clipboard_step2_download")}</button>
+              {
+                isText
+                && <button onClick={() => handleCopy(previewText)}>{localize("clipboard_step3_copy_text")}</button>
+              }
+            </div>
+          }
         </div>
       }
     </ToolLayout>

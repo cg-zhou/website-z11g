@@ -362,7 +362,7 @@ html {
 }
 
 .clipboard-preview-file-info>div>div {
-  min-width: 8rem;
+  min-width: 7rem;
   max-width: 16rem;
 }
 

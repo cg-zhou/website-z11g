@@ -14,6 +14,10 @@ interface FormidableData {
   files: Files;
 }
 
+function getExpiryTime(fields: Fields): string {
+  return fields.expiryTime?.[0] || '2hours';
+}
+
 async function upload(
   req: NextApiRequest,
   res: NextApiResponse) {
@@ -59,11 +63,12 @@ async function upload(
             path: storagePath,
             mimetype: file.mimetype,
             lastModifiedDate: file.lastModifiedDate,
-            uploadDate: new Date()
+            uploadDate: new Date(),
+            expiryDate: getExpiryDate(getExpiryTime(data.fields))
           });
       }
     } else {
-      const userInputText = data.fields.userInputText[0];
+      const userInputText = data.fields.userInputText?.[0] || '';
       const fileName = 'text.txt';
       const storagePath = `${storageFolder}/${fileName}`;
       const writeStream = fs.createWriteStream(storagePath);
@@ -77,7 +82,8 @@ async function upload(
           path: storagePath,
           mimetype: 'text/plain',
           lastModifiedDate: new Date(),
-          uploadDate: new Date()
+          uploadDate: new Date(),
+          expiryDate: getExpiryDate(getExpiryTime(data.fields))
         });
     }
 
@@ -102,15 +108,24 @@ async function get(req: NextApiRequest,
     throw new Error("the code can't be empty");
   }
 
-  let hasFindFile: Boolean = false;
   try {
     const clipboardIndex = ClipboardIndexUtils.load();
     for (let i = 0; i < clipboardIndex.length; i++) {
       const fileIndexItem = clipboardIndex[i];
       if (fileIndexItem.code == code) {
 
-        hasFindFile = true;
         let file = fileIndexItem.files[0];
+
+        if (ClipboardIndexUtils.isExpired(file)) {
+          res.status(200).json({
+            isSuccess: false,
+            errorMessage: 'clipboard_step1_expired',
+            fileInfo: {
+              expiryDate: file.expiryDate
+            }
+          });
+          return;
+        }
 
         if (onlyGetFileInfo == true) {
           file.path = `/api/clipboard?code=${code}`;
@@ -137,6 +152,20 @@ async function get(req: NextApiRequest,
   res.status(200).json({
     isSuccess: false
   });
+}
+
+function getExpiryDate(expiryTime: string): Date {
+  const now = new Date();
+  switch (expiryTime) {
+    case '2hours':
+      return new Date(now.getTime() + 2 * 60 * 60 * 1000);
+    case '1day':
+      return new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    case '1week':
+      return new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+    default:
+      return new Date(now.getTime() + 2 * 60 * 60 * 1000);
+  }
 }
 
 export default async function handler(

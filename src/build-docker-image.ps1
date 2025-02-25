@@ -1,3 +1,3 @@
-docker build -t 'metaphor1990/z11g:latest' ./
+docker build -t crpi-2u74e06dhxru0zxb.cn-beijing.personal.cr.aliyuncs.com/cgzhou/website-z11g:latest ./
 
-docker push 'metaphor1990/z11g:latest'
+docker push crpi-2u74e06dhxru0zxb.cn-beijing.personal.cr.aliyuncs.com/cgzhou/website-z11g:latest
