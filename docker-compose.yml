@@ -4,7 +4,7 @@ services:
     image: crpi-2u74e06dhxru0zxb.cn-beijing.personal.cr.aliyuncs.com/cgzhou/website-z11g:latest
     container_name: nextjs
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     restart: always
     volumes:
       - ~/workspace/app_data:/app/app_data
@@ -17,11 +17,23 @@ services:
     restart: always
     ports:
       - '80:80'
-      - '81:81'
+      - '81:81' # access through port 81 before configuring Proxy Host in Nginx Proxy Manager
       - '443:443'
     volumes:
       - ~/workspace/nginx-proxy-manager/data:/data
       - ~/workspace/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+    networks:
+      - app_network
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    ports:
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/workspace/portainer_data:/data
     networks:
       - app_network
 
