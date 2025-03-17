@@ -12,7 +12,8 @@ services:
       - app_network
 
   npm:
-    image: 'jc21/nginx-proxy-manager:latest'
+    # image: 'jc21/nginx-proxy-manager:latest'
+    image: nginxproxymanager/nginx-proxy-manager-dev:pr-4398
     container_name: nginx-proxy-manager
     restart: always
     ports:
@@ -24,6 +25,8 @@ services:
       - ~/workspace/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
     networks:
       - app_network
+    # environment:
+    #   IP_RANGES_FETCH_ENABLED: 'false'
 
   portainer:
     image: portainer/portainer-ce:latest
@@ -36,7 +39,31 @@ services:
       - ~/workspace/portainer_data:/data
     networks:
       - app_network
-
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "4533:4533"
+    volumes:
+      - ./navidrome/data:/data
+      - ./navidrome/music:/music:ro
+    networks:
+      - app_network
+  music-tag:
+    image: xhongc/music_tag_web:latest
+    container_name: music-tag-web
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./navidrome/music:/app/media:rw
+      - ./music-tag/config:/app/data
+    command: /start
+    restart: unless-stopped
+    networks:
+      - app_network
 networks:
   app_network:
     driver: bridge
