@@ -105,6 +105,20 @@ html {
   cursor: pointer;
   max-width: calc(300px * 0.3);
   max-width: calc(var(--logo-diameter) * 0.3);
+  transition: all 0.3s ease-in-out;
+  border: 2px solid transparent;
+  border-radius: 50%;
+}
+
+.footer .circle-img:hover {
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+.footer .circle-img:active {
+  transform: scale(0.95);
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
 .footer span:not(:first-child) {
