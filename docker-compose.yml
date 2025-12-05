@@ -1,7 +1,6 @@
-version: "3.9"
 services:
   nextjs:
-    image: crpi-2u74e06dhxru0zxb.cn-beijing.personal.cr.aliyuncs.com/cgzhou/website-z11g:latest
+    image: website-z11g:latest
     container_name: nextjs
     ports:
       - "127.0.0.1:3000:3000"
@@ -12,8 +11,7 @@ services:
       - app_network
 
   npm:
-    # image: 'jc21/nginx-proxy-manager:latest'
-    image: nginxproxymanager/nginx-proxy-manager-dev:pr-4398
+    image: 'jc21/nginx-proxy-manager:latest'
     container_name: nginx-proxy-manager
     restart: always
     ports:
@@ -25,8 +23,8 @@ services:
       - ~/workspace/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
     networks:
       - app_network
-    # environment:
-    #   IP_RANGES_FETCH_ENABLED: 'false'
+    environment:
+      IP_RANGES_FETCH_ENABLED: 'false'
 
   portainer:
     image: portainer/portainer-ce:latest
